@@ -1,0 +1,4 @@
+Loading default properties from tagger E:\Development\RogProjects\upwork\IGaming\stanford-postagger-2018-10-16\models\english-bidirectional-distsim.tagger
+Loading POS tagger from E:\Development\RogProjects\upwork\IGaming\stanford-postagger-2018-10-16\models\english-bidirectional-distsim.tagger ... done [0.7 sec].
+My_PRP$ dog_NN also_RB likes_VBZ eating_JJ sausage_NN ._.
+Tagged 7 words at 14.89 words per second.
