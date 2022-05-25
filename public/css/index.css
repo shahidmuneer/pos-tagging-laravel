@@ -1,0 +1,54 @@
+@media screen and (max-width: 480px) {
+  .position {
+      top: 25px !important;
+      text-align: center !important;
+          float: inherit !important;
+  }
+}
+
+
+
+.navbar-expand-lg{
+border-bottom: 1px solid lightgrey;
+}
+.display-block{
+    display: block;
+}
+.margin-bottom-0{
+    margin-bottom: 0;
+}
+.margin-top-150{
+    margin-top: 150px;
+}
+.form-control {
+    border-radius: 30px;
+}
+.btn {
+    border-radius: 30px;
+    border: 1px solid #ced4da;
+}
+.btn-secondary{
+    background: white;
+}
+.color-black{
+    color: black;
+    
+}
+.input-group{
+    margin-bottom: 60px;
+    margin-top: 60px;
+}
+.mt-50{
+    margin-top: 50px;
+}
+.position{
+        float: right;
+    position: relative;
+    top: -51px;
+}
+.color-red{
+color: #5D1312;
+}
+.nav-link{
+    color: #F7898E;
+}
