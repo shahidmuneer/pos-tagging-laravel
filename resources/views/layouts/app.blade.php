@@ -25,71 +25,52 @@
 </head>
 
 <body>
-    <div id="app">
-        <header>
-            <nav class="navbar navbar-expand-lg">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">
-                        <!--    <img src="assets/images/BILLIONAERS%20LOGO%2002.png" alt="logo" class="logo-img">-->
-                        Logo
-                    </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-7">
-                        <span><i class="fa fa-bars"></i> </span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-between" id="navbar-list-7">
+<div id="app">
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+{{--                    <img src="assets/images/BILLIONAERS%20LOGO%2002.png" alt="logo" class="logo-img">--}}
+                    Logo
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-7">
+                    <span><i class="fa fa-bars"></i> </span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbar-list-7">
+                    <ul class="navbar-nav"></ul>
+                    <span class="navbar-text">
                         <ul class="navbar-nav">
-                            <!--
-                                    <li class="nav-item"><a href="#" class="nav-link">Home</a>
-
-                                    </li>
-                                      <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      Dropdown link
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                      <a class="dropdown-item" href="#">Action</a>
-                                      <a class="dropdown-item" href="#">Another action</a>
-                                      <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
-                                  </li>
-                                     <li class="nav-item"><a href="#" class="nav-link">Home2</a></li>
-                                     <li class="nav-item"><a href="#" class="nav-link">Home3</a></li>
-                            -->
+                            <li class="nav-item"><a href="{{ route('stories') }}?search={{ old('search') }}" class="nav-link sign-up">Stories</a></li>
+                            <li class="nav-item"><a href="{{ route('quotes') }}?search={{ old('search') }}" class="nav-link log-in">Quotes</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link sign-up">Poems</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link log-in">Songs</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link sign-up">Jokes</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link log-in">Essays</a></li>
                         </ul>
-                        <span class="navbar-text">
-      <ul class="navbar-nav">
-
-         <li class="nav-item"><a href="#" class="nav-link sign-up">Stories</a></li>
-         <li class="nav-item"><a href="#" class="nav-link log-in">Quotes</a></li>
-           <li class="nav-item"><a href="#" class="nav-link sign-up">Poems</a></li>
-         <li class="nav-item"><a href="#" class="nav-link log-in">Songs</a></li>
-           <li class="nav-item"><a href="#" class="nav-link sign-up">Jokes</a></li>
-         <li class="nav-item"><a href="#" class="nav-link log-in">Essays</a></li>
-    </ul>
-    </span>
-                    </div>
+                    </span>
                 </div>
-            </nav>
-        </header>
+            </div>
+        </nav>
+    </header>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+    <main class="py-4">
+        @yield('content')
+    </main>
 
-        <footer class="mr-3 ml-3">
-            <div class="position">Lybr, inc , copyright 2022<br><a href="#">Help</a> | <a href="#">Privacy</a> | <a href="#">Terms</a></div>
-        </footer>
-        @yield('modals')
+    <footer class="mr-3 ml-3">
+        <div class="position">Lybr, inc , copyright 2022<br><a href="#">Help</a> | <a href="#">Privacy</a> | <a href="#">Terms</a></div>
+    </footer>
+    @yield('modals')
 
-    </div>
+</div>
 
-    <!-- Scripts -->
+<!-- Scripts -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
-    @yield('scripts')
+@yield('scripts')
 
 </body>
 
