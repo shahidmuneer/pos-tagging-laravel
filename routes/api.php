@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get("pos-tagging", [\App\Http\Controllers\POSTaggingController::class, 'pos_tagging'])->name('pos-tagging');
 
-Route::get("syllable-hyphenation", [\App\Http\Controllers\PhpSyllableController::class, 'syllable_hyphenation'])->name('/syllable-hyphenation');
+Route::get("syllable-hyphenation", [\App\Http\Controllers\PhpSyllableController::class, 'syllable_hyphenation'])->name('syllable-hyphenation');
 
