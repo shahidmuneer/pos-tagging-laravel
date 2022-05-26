@@ -39,14 +39,7 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbar-list-7">
                     <ul class="navbar-nav"></ul>
                     <span class="navbar-text">
-                        <ul class="navbar-nav">
-                            <li class="nav-item"><a href="{{ route('stories') }}?search={{ old('search') }}" class="nav-link sign-up">Stories</a></li>
-                            <li class="nav-item"><a href="{{ route('quotes') }}?search={{ old('search') }}" class="nav-link log-in">Quotes</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link sign-up">Poems</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link log-in">Songs</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link sign-up">Jokes</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link log-in">Essays</a></li>
-                        </ul>
+                        <ul class="navbar-nav" id="navbar-categories"></ul>
                     </span>
                 </div>
             </div>
@@ -69,7 +62,21 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-
+<script>
+    $(document).ready(function () {
+        $.get(
+            '{{ route('get-navbar-categories') }}',
+            function(data) {
+                console.log(data)
+                let categories_html = '';
+                for (let i=0;i<data.length;i++) {
+                    categories_html += '<li class="nav-item"><a href="{{ url('show') }}/'+ data[i]['id'] +'" class="nav-link log-in">'+ data[i]['type_name'] +'</a></li>'
+                }
+                $('#navbar-categories').empty().append(categories_html);
+            }
+        );
+    });
+</script>
 @yield('scripts')
 
 </body>

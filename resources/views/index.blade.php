@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page'=>$category->route])
+@extends('layouts.app')
 @section('content')
     <div class="container">
         <div class="row">
@@ -7,7 +7,7 @@
             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 text-center">
                 <h3 class="margin-top-150 color-red">Learn to Write Well</h3>
 
-                <form method="get" action="{{ route($category->route) }}">
+                <form method="get" action="{{ route('show', $category->id) }}">
                     <div class="input-group">
                         <input type="text" class="form-control" name="search" placeholder="Search by Author, Title, or Keyword | {{ $category->type_name }}" value="{{ old('search') }}">
                         <div class="input-group-append">
@@ -49,9 +49,9 @@
                                 @foreach($result as $key=>$value)
                                     <tr>
                                         <th scope="row">{{ $key+1 }}</th>
-                                        <td>{{ $value->strPost_author }}</td>
-                                        <td>{{ $value->strPost_title }}</td>
-                                        <td>{{ $value->strPost_keywords }}</td>
+                                        <td>{{ $value->{'str'. $category->type_name .'_author'} }}</td>
+                                        <td>{{ $value->{'str'. $category->type_name .'_title'} }}</td>
+                                        <td>{{ $value->{'str'. $category->type_name .'_keywords'} }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

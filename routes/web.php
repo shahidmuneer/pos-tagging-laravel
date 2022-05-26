@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', [\App\Http\Controllers\POSTaggingController::class, 'index']);
+Route::get('/', [\App\Http\Controllers\POSTaggingController::class, 'index'])->name('index');
 
-Route::get('/stories', [\App\Http\Controllers\POSTaggingController::class, 'stories'])->name('stories');
-
-Route::get('/quotes', [\App\Http\Controllers\POSTaggingController::class, 'quotes'])->name('quotes');
+Route::get('/show/{id}', [\App\Http\Controllers\HomeController::class, 'show'])->where('id', '[0-9]+')->name('show');
 
