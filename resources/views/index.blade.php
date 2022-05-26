@@ -17,7 +17,6 @@
                         </div>
                     </div>
                 </form>
-
                 @if(!isset($result))
                     <p class="margin-bottom-0">Practice the pace and structure <span class="display-block">of masters to find your own style</span></p>
                 @endif
