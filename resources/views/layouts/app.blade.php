@@ -70,7 +70,7 @@
                 console.log(data)
                 let categories_html = '';
                 for (let i=0;i<data.length;i++) {
-                    categories_html += '<li class="nav-item"><a href="{{ url('show') }}/'+ data[i]['id'] +'" class="nav-link log-in">'+ data[i]['type_name'] +'</a></li>'
+                    categories_html += '<li class="nav-item"><a '+ (data[i]['id'] === {{ $category->id }}?'style="color: blue; font-weight: normal;"':'') +' href="{{ url('show') }}/'+ data[i]['id'] +'?search={{ old('search') }}" class="nav-link log-in">'+ data[i]['type_name'] +'</a></li>'
                 }
                 $('#navbar-categories').empty().append(categories_html);
             }

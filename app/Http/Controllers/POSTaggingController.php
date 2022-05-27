@@ -7,11 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class POSTaggingController extends Controller
 {
-    public function index(Request $request)
-    {
-        return redirect()->route('show', 1);
-    }
-
     public function pos_tagging(Request $request) {
         $model_path=base_path().'\stanford-postagger-2018-10-16\models\english-bidirectional-distsim.tagger';
         $jar_path=base_path(). '\stanford-postagger-2018-10-16\stanford-postagger.jar';

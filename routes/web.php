@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', [\App\Http\Controllers\POSTaggingController::class, 'index'])->name('index');
+Route::get('/', function () {
+    return redirect()->route('show', 1);
+})->name('index');
 
 Route::get('/show/{id}', [\App\Http\Controllers\HomeController::class, 'show'])->where('id', '[0-9]+')->name('show');
 
