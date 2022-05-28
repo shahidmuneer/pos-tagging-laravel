@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- BootStrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 
     <!-- Custom -->
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
@@ -29,17 +29,46 @@
     <header>
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{{ route('home') }}">
 {{--                    <img src="assets/images/BILLIONAERS%20LOGO%2002.png" alt="logo" class="logo-img">--}}
                     Logo
                 </a>
+                @isset($nav_search)
+                    <ul class="navbar-nav">
+                        <form method="get" action="{{ route($page, $category->id) }}">
+                            <div class="input-group" style="margin-top: 5px; margin-bottom: 5px;">
+                                <input type="text" class="form-control br-0" placeholder="" name="search" value="{{ old('search') }}">
+                                <div class="dropdown">
+                                    <button type="button" class="btn" data-toggle="dropdown" style="border-radius: 0; border-left: 0;">
+                                        | {{ $category->type_name }}
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        @foreach($categories as $key=>$value)
+                                            <a class="dropdown-item" href="{{ route($page, $value->id) }}">{{ $value->type_name}}</a>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="submit">
+                                        <i class="fa fa-search" style="color: #F7898E;"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </ul>
+                @endisset
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-7">
                     <span><i class="fa fa-bars"></i> </span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbar-list-7">
                     <ul class="navbar-nav"></ul>
                     <span class="navbar-text">
-                        <ul class="navbar-nav" id="navbar-categories"></ul>
+                        <ul class="navbar-nav" id="navbar-categories">
+                            @foreach($categories as $key=>$value)
+                                <li class="nav-item"><a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif href="{{ route($page, $value->id) }}" class="nav-link log-in">{{ $value->type_name }}</a></li>
+                            @endforeach
+                        </ul>
                     </span>
                 </div>
             </div>
@@ -50,9 +79,24 @@
         @yield('content')
     </main>
 
-    <footer class="mr-3 ml-3">
-        <div class="position">Lybr, inc , copyright 2022<br><a href="#">Help</a> | <a href="#">Privacy</a> | <a href="#">Terms</a></div>
-    </footer>
+    @isset($black_footer)
+        <div class="footer-black fixed-bottom">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-10 col-md-9">
+                        <p>Lybr, inc , copyright 2022</p>
+                    </div>
+                    <div class="col-lg-2 col-md-3">
+                        <div><a href="#" style="color: white">Help</a> | <a href="#" style="color: white">Privacy</a> | <a href="#" style="color: white">Terms</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @else
+        <footer class="mr-3 ml-3">
+            <div class="position">Lybr, inc , copyright 2022<br><a href="#">Help</a> | <a href="#">Privacy</a> | <a href="#">Terms</a></div>
+        </footer>
+    @endisset
     @yield('modals')
 
 </div>
@@ -60,22 +104,9 @@
 <!-- Scripts -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $.get(
-            '{{ route('get-navbar-categories') }}',
-            function(data) {
-                console.log(data)
-                let categories_html = '';
-                for (let i=0;i<data.length;i++) {
-                    categories_html += '<li class="nav-item"><a '+ (data[i]['id'] === {{ $category->id }}?'style="color: blue; font-weight: normal;"':'') +' href="{{ url('show') }}/'+ data[i]['id'] +'?search={{ old('search') }}" class="nav-link log-in">'+ data[i]['type_name'] +'</a></li>'
-                }
-                $('#navbar-categories').empty().append(categories_html);
-            }
-        );
-    });
 </script>
 @yield('scripts')
 

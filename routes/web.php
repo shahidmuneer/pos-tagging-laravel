@@ -12,8 +12,9 @@
 */
 
 Route::get('/', function () {
-    return redirect()->route('show', 1);
+    return redirect()->route('home');
 })->name('index');
+Route::get('/home/{id?}', [\App\Http\Controllers\HomeController::class, 'home'])->where('id', '[0-9]')->name('home');
 
-Route::get('/show/{id}', [\App\Http\Controllers\HomeController::class, 'show'])->where('id', '[0-9]+')->name('show');
+Route::get('/browse/{id}', [\App\Http\Controllers\HomeController::class, 'browse'])->where('id', '[0-9]+')->name('browse');
 
