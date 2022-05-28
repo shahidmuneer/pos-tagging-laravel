@@ -80,7 +80,7 @@
     </main>
 
     @isset($black_footer)
-        <div class="footer-black fixed-bottom">
+        <div class="footer-black">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-10 col-md-9">
