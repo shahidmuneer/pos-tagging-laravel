@@ -4,6 +4,7 @@
       text-align: center !important;
           float: inherit !important;
   }
+ 
 }
 
 
@@ -30,6 +31,11 @@ border-bottom: 1px solid lightgrey;
 .btn-secondary{
     background: white;
 }
+.btn-secondary:hover {
+    
+    background-color: white;
+    border-color: #ced4da;
+}
 .color-black{
     color: black;
     
@@ -51,4 +57,36 @@ color: #5D1312;
 }
 .nav-link{
     color: #F7898E;
+}
+.btn:focus {
+    outline: 0;
+    box-shadow:none;
+}
+.br-0{
+    border-right: 0;
+}
+
+
+
+
+
+.nav-tabs .nav-link.active {
+    color:  #F7898E;
+    border-color: transparent;
+    background-color: transparent;
+}
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover{
+  border-color: transparent;
+    background-color: transparent;   
+}
+.nav-link1{
+    color: black;
+}
+.margin-top-40{
+    margin-top: 40px;
+}
+.footer-black{
+    background-color: black;
+    color: white;
+    padding: 25px 10px 10px 10px;
 }
