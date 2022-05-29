@@ -8,7 +8,7 @@
                 <h3 class="margin-top-150 color-red">Learn to Write Well</h3>
                 <form method="get" action="{{ route('browse', $category->id) }}">
                     <div class="input-group">
-                        <input type="text" class="form-control br-0" placeholder="Search by Author, Title, or Keyword " value="{{ old('search') }}" name="search">
+                        <input type="text" class="form-control br-0" placeholder="Search by Author, Title, or Keyword" value="{{ old('search') }}" name="search">
                         <div class="dropdown">
                             <button type="button" class="btn" data-toggle="dropdown" style="border-radius: 0; border-left: 0;">
                                 | {{ $category->type_name }}

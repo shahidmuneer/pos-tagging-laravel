@@ -3,7 +3,12 @@
       top: 25px !important;
       text-align: center !important;
           float: inherit !important;
+      right: inherit !important;
   }
+    .div-black{
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+    }
  
 }
 
@@ -51,6 +56,7 @@ border-bottom: 1px solid lightgrey;
         float: right;
     position: relative;
     top: -51px;
+    right: 80px;
 }
 .color-red{
 color: #5D1312;
@@ -88,5 +94,82 @@ color: #5D1312;
 .footer-black{
     background-color: black;
     color: white;
-    padding: 25px 10px 10px 10px;
+    padding: 25px 25px 10px 25px;
+}
+ul{
+    list-style: none !important;
+}
+.fa-arrow-circle-right{
+        margin-top: 5px;
+    margin-right: 15px;
+    color: red;
+}
+.div-black{
+    background-color: black;
+    color: white;
+    padding-top: 75px;
+    padding-bottom: 20px;
+    padding-right: 180px;
+    padding-left:70px;
+    overflow-y: scroll;
+    height: 450px;
+}
+.line-gray{
+ border-bottom: 2px solid gray;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.line-gray span{
+        position: absolute;
+    margin-top:25px;
+    font-size: 11px;
+}
+.line-height-40{
+    line-height: 40px;
+    font-size: 24px;
+    font-weight: 400;
+}
+.line-yellow{
+        border-bottom: 2px solid yellow;
+     margin-left: 15px;
+    margin-right: 15px;
+}
+.line-yellow span{
+        position: absolute;
+    margin-top:25px;
+    font-size: 11px;
+}
+.line-green{
+     border-bottom: 2px solid green;
+     margin-left: 15px;
+    margin-right: 15px;
+}
+.line-green span{
+        position: absolute;
+    margin-top:25px;
+    font-size: 11px;
+}
+.line-purple{
+     border-bottom: 2px solid purple;
+     margin-left: 15px;
+    margin-right: 15px;
+}
+.line-purple span{
+        position: absolute;
+    margin-top:25px;
+    font-size: 11px;
+}
+.line-pink{
+     border-bottom: 2px solid pink;
+     margin-left: 15px;
+    margin-right: 15px;
+}
+.line-pink span{
+        position: absolute;
+    margin-top:25px;
+    font-size: 11px;
+}
+.padding-60{
+    padding-left: 60px;
+    padding-right: 60px;
 }

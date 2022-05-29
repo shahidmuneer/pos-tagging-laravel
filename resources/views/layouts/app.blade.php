@@ -37,14 +37,14 @@
                     <ul class="navbar-nav">
                         <form method="get" action="{{ route($page, $category->id) }}">
                             <div class="input-group" style="margin-top: 5px; margin-bottom: 5px;">
-                                <input type="text" class="form-control br-0" placeholder="" name="search" value="{{ old('search') }}">
+                                <input type="text" class="form-control br-0"  placeholder="Search by Author, Title, or Keyword" name="search" value="{{ old('search') }}">
                                 <div class="dropdown">
                                     <button type="button" class="btn" data-toggle="dropdown" style="border-radius: 0; border-left: 0;">
                                         | {{ $category->type_name }}
                                     </button>
                                     <div class="dropdown-menu">
                                         @foreach($categories as $key=>$value)
-                                            <a class="dropdown-item" href="{{ route($page, $value->id) }}">{{ $value->type_name}}</a>
+                                            <a class="dropdown-item" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->type_name}}</a>
                                         @endforeach
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                     <span class="navbar-text">
                         <ul class="navbar-nav" id="navbar-categories">
                             @foreach($categories as $key=>$value)
-                                <li class="nav-item"><a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif href="{{ route($page, $value->id) }}" class="nav-link log-in">{{ $value->type_name }}</a></li>
+                                <li class="nav-item"><a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif href="{{ route($page=='write'?'browse':$page, $value->id) }}" class="nav-link log-in">{{ $value->type_name }}</a></li>
                             @endforeach
                         </ul>
                     </span>

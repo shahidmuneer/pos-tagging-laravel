@@ -18,3 +18,5 @@ Route::get('/home/{id?}', [\App\Http\Controllers\HomeController::class, 'home'])
 
 Route::get('/browse/{id}', [\App\Http\Controllers\HomeController::class, 'browse'])->where('id', '[0-9]+')->name('browse');
 
+Route::get('/write/{category}/{id}', [\App\Http\Controllers\HomeController::class, 'write'])->where('category', '[0-9]+')->where('id', '[0-9]+')->name('write');
+
