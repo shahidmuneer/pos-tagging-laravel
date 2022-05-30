@@ -13,6 +13,7 @@ class HomeController extends Controller
     {
         $data = [];
         $data['categories'] = DB::table('stc_category_types')->get();
+        $data['pos_tags'] = DB::table('stc_pos_tags')->get();
         return $data;
     }
 
@@ -102,19 +103,24 @@ class HomeController extends Controller
             $result = DB::table($data['category']->table_name)->where($data['category']->type_name.'_id', $id)->get()->first();
         else abort(404);
         if (isset($result)) {
-            $data['result']['original'] = explode('.', $result->{'str'. $data['category']->type_name .'_body'})[0];
+            $data['result']['original'] = preg_split('/,/', strip_tags($result->{'str'. $data['category']->type_name .'_body'}), -1, PREG_SPLIT_NO_EMPTY);
+            $data['result']['original'] = [$data['result']['original'][0]];
+            foreach ($data['result']['original'] as $key=>$original) {
+                $request = Request::create('api/syllable-hyphenation', 'GET', ['input'=>$original]);
+                \Illuminate\Support\Facades\Request::replace($request->input());
+                $instance = json_decode(Route::dispatch($request)->getContent());
+                $data['result']['hyphenated'][] = $instance->output;
 
-            $request = Request::create('api/syllable-hyphenation', 'GET', ['input'=>$data['result']['original']]);
-            \Illuminate\Support\Facades\Request::replace($request->input());
-            $instance = json_decode(Route::dispatch($request)->getContent());
-            $data['result']['hyphenated'] = $instance->output;
-
-            $request = Request::create('api/pos-tagging', 'GET', ['input'=>$data['result']['original']]);
-            \Illuminate\Support\Facades\Request::replace($request->input());
-            $instance = json_decode(Route::dispatch($request)->getContent());
-            $data['result']['tagged'] = $instance->output;
+                $request = Request::create('api/pos-tagging', 'GET', ['input'=>$original]);
+                \Illuminate\Support\Facades\Request::replace($request->input());
+                $instance = json_decode(Route::dispatch($request)->getContent());
+                $data['result']['tagged'][] = $instance->output;
+            }
         }
         else abort(404);
+
+        $data['detail'] = array_combine(array_column($data['pos_tags']->toArray(), 'tag'), array_column($data['pos_tags']->toArray(), 'detail'));
+        $data['color'] = array_combine(array_column($data['pos_tags']->toArray(), 'tag'), array_column($data['pos_tags']->toArray(), 'color'));
 
         return view('write')->with($data);
     }

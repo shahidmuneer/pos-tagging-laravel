@@ -9,7 +9,7 @@
         padding-right: 20px !important;
         padding-left: 20px !important;
     }
- 
+
 }
 
 
@@ -37,13 +37,13 @@ border-bottom: 1px solid lightgrey;
     background: white;
 }
 .btn-secondary:hover {
-    
+
     background-color: white;
     border-color: #ced4da;
 }
 .color-black{
     color: black;
-    
+
 }
 .input-group{
     margin-bottom: 60px;
@@ -83,7 +83,7 @@ color: #5D1312;
 }
 .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover{
   border-color: transparent;
-    background-color: transparent;   
+    background-color: transparent;
 }
 .nav-link1{
     color: black;
@@ -114,8 +114,18 @@ ul{
     overflow-y: scroll;
     height: 450px;
 }
+.line-grey{
+    border-bottom: 2px solid grey;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.line-grey span{
+    position: absolute;
+    margin-top:25px;
+    font-size: 11px;
+}
 .line-gray{
- border-bottom: 2px solid gray;
+    border-bottom: 2px solid gray;
     margin-left: 15px;
     margin-right: 15px;
 }

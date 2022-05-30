@@ -29,6 +29,6 @@ class PhpSyllableController extends Controller
         // Output hyphenated text
         $output=$syllable->hyphenateText($request->input("input")??"");
 
-        return response()->json(["output"=>str_replace("1","_",$output)]);
+        return response()->json(["output"=>str_replace("1","-",$output)]);
     }
 }
