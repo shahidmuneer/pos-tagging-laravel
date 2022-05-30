@@ -122,7 +122,7 @@ ul{
 .line-grey span{
     position: absolute;
     margin-top:25px;
-    font-size: 11px;
+    font-size: 6px;
 }
 .line-gray{
     border-bottom: 2px solid gray;
@@ -132,7 +132,7 @@ ul{
 .line-gray span{
         position: absolute;
     margin-top:25px;
-    font-size: 11px;
+    font-size: 6px;
 }
 .line-height-40{
     line-height: 40px;
@@ -147,7 +147,7 @@ ul{
 .line-yellow span{
         position: absolute;
     margin-top:25px;
-    font-size: 11px;
+    font-size: 6px;
 }
 .line-green{
      border-bottom: 2px solid green;
@@ -157,7 +157,7 @@ ul{
 .line-green span{
         position: absolute;
     margin-top:25px;
-    font-size: 11px;
+    font-size: 6px;
 }
 .line-purple{
      border-bottom: 2px solid purple;
@@ -167,7 +167,7 @@ ul{
 .line-purple span{
         position: absolute;
     margin-top:25px;
-    font-size: 11px;
+    font-size: 6px;
 }
 .line-pink{
      border-bottom: 2px solid pink;
@@ -177,7 +177,7 @@ ul{
 .line-pink span{
         position: absolute;
     margin-top:25px;
-    font-size: 11px;
+    font-size: 6px;
 }
 .padding-60{
     padding-left: 60px;

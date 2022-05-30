@@ -17,8 +17,9 @@
                 @php $hyphenated_words = explode(' ', $hyphenated); $tagged_words = explode(' ', $result['tagged'][$index]);  @endphp
                 <p class="line-height-40">"
                     @foreach($hyphenated_words as $key=>$value)
-                        <span class="{{ $color[explode('_', $tagged_words[$key])[1]] }}">
-                            <span>{{ $detail[explode('_', $tagged_words[$key])[1]] }}</span>
+                  
+                        <span class="{{ $color[explode('_', $tagged_words[$key])[1]]??'' }}">
+                            <span>{{ $detail[explode('_', $tagged_words[$key])[1]]??'' }}</span>
                             {{ $value }}
                         </span>
                     @endforeach
