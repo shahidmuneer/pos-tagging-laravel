@@ -103,18 +103,18 @@ class HomeController extends Controller
             $result = DB::table($data['category']->table_name)->where($data['category']->type_name.'_id', $id)->get()->first();
         else abort(404);
         if (isset($result)) {
-            $data['result']['original'] = preg_split('/,/', strip_tags($result->{'str'. $data['category']->type_name .'_body'}), -1, PREG_SPLIT_NO_EMPTY);
-            $data['result']['original'] = [$data['result']['original'][0]];
+            $data['result']['original'] = array_filter(explode('.', strip_tags($result->{'str'. $data['category']->type_name .'_body'})));
+//            $data['result']['original'] = [$data['result']['original'][0]];
             foreach ($data['result']['original'] as $key=>$original) {
-                $request = Request::create('api/syllable-hyphenation', 'GET', ['input'=>$original]);
-                \Illuminate\Support\Facades\Request::replace($request->input());
-                $instance = json_decode(Route::dispatch($request)->getContent());
-                $data['result']['hyphenated'][] = $instance->output;
-
                 $request = Request::create('api/pos-tagging', 'GET', ['input'=>$original]);
                 \Illuminate\Support\Facades\Request::replace($request->input());
                 $instance = json_decode(Route::dispatch($request)->getContent());
                 $data['result']['tagged'][] = $instance->output;
+
+                $request = Request::create('api/syllable-hyphenation', 'GET', ['input'=>$instance->output]);
+                \Illuminate\Support\Facades\Request::replace($request->input());
+                $instance = json_decode(Route::dispatch($request)->getContent());
+                $data['result']['hyphenated'][] = $instance->output;
             }
         }
         else abort(404);
