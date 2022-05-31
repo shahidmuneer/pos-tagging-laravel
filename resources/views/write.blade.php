@@ -17,9 +17,16 @@
                 @php $hyphenated_words = explode(' ', $hyphenated); $tagged_words = explode(' ', $result['tagged'][$index]); @endphp
                 <p class="line-height-40" @if($index != 0) hidden @endif id="structured_{{ $index }}">
                     @foreach($hyphenated_words as $key=>$value)
+<<<<<<< HEAD
                         <span class="{{ $color[explode('_', $tagged_words[$key])[1]] }}">
                             <span>{{ $detail[explode('_', $tagged_words[$key])[1]] }}</span>
                             {{ explode('_', $value)[0] }}
+=======
+                  
+                        <span class="{{ $color[explode('_', $tagged_words[$key])[1]]??'' }}">
+                            <span>{{ $detail[explode('_', $tagged_words[$key])[1]]??'' }}</span>
+                            {{ $value }}
+>>>>>>> 2874a16c24f3898c337499d6f84b7d8b2f423688
                         </span>
                     @endforeach
                 </p>
