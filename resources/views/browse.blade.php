@@ -30,7 +30,7 @@
                                     @if($title)
                                         <h3 style="color: #F7898E">{{ $title[min(array_keys($title))] }}</h3>
                                     @else
-                                        <h3 style="color: #F7898E">{!! $value->{'str'. $category_result['type']->type_name .'_body'} !!}</h3>
+                                        <h3 style="color: #F7898E">{!! $value->{'str'. $category->type_name .'_body'} !!}</h3>
                                     @endisset
                                 @endif
                             </a>

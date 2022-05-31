@@ -104,7 +104,7 @@ class HomeController extends Controller
         else abort(404);
         if (isset($result)) {
             $data['result']['original'] = array_filter(explode('.', strip_tags($result->{'str'. $data['category']->type_name .'_body'})));
-//            $data['result']['original'] = [$data['result']['original'][0]];
+            $data['result']['original'] = [$data['result']['original'][1]];
             foreach ($data['result']['original'] as $key=>$original) {
                 $request = Request::create('api/pos-tagging', 'GET', ['input'=>$original]);
                 \Illuminate\Support\Facades\Request::replace($request->input());
