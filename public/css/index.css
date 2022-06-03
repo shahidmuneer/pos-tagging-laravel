@@ -116,8 +116,6 @@ ul{
 }
 .line-empty{
     border-bottom: 2px solid white;
-    margin-left: 0px;
-    margin-right: 100px;
 }
 .line-empty span{
     position: absolute;
@@ -126,8 +124,6 @@ ul{
 }
 .line-grey{
     border-bottom: 2px solid grey;
-    margin-left: 0px;
-    margin-right: 100px;
 }
 .line-grey span{
     position: absolute;
@@ -136,8 +132,6 @@ ul{
 }
 .line-gray{
     border-bottom: 2px solid gray;
-    margin-left: 0px;
-    margin-right: 100px;
 }
 .line-gray span{
     position: absolute;
@@ -151,8 +145,6 @@ ul{
 }
 .line-yellow{
         border-bottom: 2px solid yellow;
-     margin-left: 0px;
-    margin-right: 100px;
 }
 .line-yellow span{
         position: absolute;
@@ -161,8 +153,6 @@ ul{
 }
 .line-green{
      border-bottom: 2px solid green;
-     margin-left: 0px;
-    margin-right: 100px;
 }
 .line-green span{
         position: absolute;
@@ -171,8 +161,6 @@ ul{
 }
 .line-purple{
      border-bottom: 2px solid purple;
-     margin-left: 0px;
-    margin-right: 100px;
 }
 .line-purple span{
         position: absolute;
@@ -181,8 +169,6 @@ ul{
 }
 .line-pink{
      border-bottom: 2px solid pink;
-     margin-left: 0px;
-    margin-right: 100px;
 }
 .line-pink span{
         position: absolute;
@@ -190,6 +176,20 @@ ul{
     font-size: 11px;
 }
 .padding-60{
+    padding-left: 20px;
+    padding-right: 10px;
+}
+.padding-60{
     padding-left: 60px;
     padding-right: 60px;
+}
+.page-link ,.page-link:hover{
+    border: none;
+    color: #F7898E !important;
+    background-color: transparent;
+    padding: 0.5rem 2.5rem;
+}
+
+.sentence-active {
+    font-weight: bold;
 }
