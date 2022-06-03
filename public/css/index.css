@@ -112,72 +112,55 @@ ul{
     padding-right: 180px;
     padding-left:70px;
     overflow-y: scroll;
-    height: 450px;
+    height: 620px;
+}
+
+.sentence-active {
+    font-weight: bold;
 }
 .line-empty{
-    border-bottom: 2px solid white;
-}
-.line-empty span{
-    position: absolute;
-    margin-top:25px;
-    font-size: 11px;
+    border-bottom: 2px solid grey;
+    margin-left: 10px;
 }
 .line-grey{
     border-bottom: 2px solid grey;
+    margin-left: 10px;
 }
-.line-grey span{
-    position: absolute;
-    margin-top:25px;
-    font-size: 11px;
-}
+
 .line-gray{
-    border-bottom: 2px solid gray;
-}
-.line-gray span{
-    position: absolute;
-    margin-top:25px;
-    font-size: 11px;
+ border-bottom: 2px solid gray;
+    margin-left: 10px;
+
 }
 .line-height-40{
-    line-height: 40px;
     font-size: 24px;
     font-weight: 400;
 }
 .line-yellow{
         border-bottom: 2px solid yellow;
+     margin-left: 10px;
+
 }
-.line-yellow span{
-        position: absolute;
-    margin-top:25px;
+.line-yellow-1{
     font-size: 11px;
+    margin-left: 10px;
 }
 .line-green{
      border-bottom: 2px solid green;
+     margin-left: 10px;
+
 }
-.line-green span{
-        position: absolute;
-    margin-top:25px;
-    font-size: 11px;
-}
+
 .line-purple{
      border-bottom: 2px solid purple;
-}
-.line-purple span{
-        position: absolute;
-    margin-top:25px;
-    font-size: 11px;
+     margin-left: 10px;
+
 }
 .line-pink{
      border-bottom: 2px solid pink;
-}
-.line-pink span{
-        position: absolute;
-    margin-top:25px;
-    font-size: 11px;
-}
-.padding-60{
-    padding-left: 20px;
-    padding-right: 10px;
+     margin-left: 10px;
+
+
 }
 .padding-60{
     padding-left: 60px;
@@ -188,8 +171,4 @@ ul{
     color: #F7898E !important;
     background-color: transparent;
     padding: 0.5rem 2.5rem;
-}
-
-.sentence-active {
-    font-weight: bold;
 }
