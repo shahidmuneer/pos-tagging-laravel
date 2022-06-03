@@ -34,7 +34,7 @@ class HomeController extends Controller
     public function browse(Request $request, $id)
     {
         $data = $this->get_date();
-
+        
         if (isset($id))
             $data['category'] = DB::table('stc_category_types')->find($id);
         else
@@ -42,7 +42,6 @@ class HomeController extends Controller
 
         if (isset($data['category'])) {
             if ($request->filled('search')) {
-                $data['categories_result'] = [];
                 foreach ($data['categories'] as $category) {
                     if ($data['category']->table_name != $category->table_name) {
                         if ($category->id == 5) {
