@@ -20,7 +20,7 @@
                             <div class="container">
                                 <a href="{{ route('write', [$category->id, $value['track_id']]) }}">
                                         @php $title = []; @endphp
-                                        @foreach(['.',',',':',';'] as $character)
+                                        @foreach(['.',',',':',';',"'"] as $character)
                                             @if(str_contains($value['lyrics_body'], $character))
                                                 @php $title[strlen(explode($character, $value['lyrics_body'])[0])] = explode($character, $value['lyrics_body'])[0]; @endphp
                                             @endif
