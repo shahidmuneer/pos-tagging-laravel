@@ -26,9 +26,9 @@
                     </div>
                 @endforeach
                 <ul class="pagination" style="margin-top: 30px;">
-                    <li class="page-item"><a class="page-link" href="#">&laquo; Previous Sentence</a></li>
-                    <li class="page-item"><a class="page-link" href="#">View all</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next Sentence &raquo; </a></li>
+                    <li class="page-item"><p class="page-link" id="previous-sentence">&laquo; Previous Sentence</p></li>
+                    <li class="page-item"><p class="page-link cursor-pointer" id="view-all">View all</p></li>
+                    <li class="page-item"><p class="page-link @if(sizeof($result['original'])>1){{'cursor-pointer'}}@endif" id="next-sentence">Next Sentence &raquo;</p></li>
                 </ul>
             </div>
         </div>
@@ -37,11 +37,55 @@
 @endsection
 @section('scripts')
     <script>
+        let first_sentence = parseInt($('.div-black p:first').attr('id').replace('original_', ''));
+        let last_sentence = parseInt($('.div-black p:last').attr('id').replace('original_', ''));
         $('.div-black p').on('click', function () {
             $('.div-black p').removeClass('sentence-active');
             $(this).addClass('sentence-active');
             $('.hyphenated-sentence').attr('hidden', 'hidden');
             $('#structured_'+$(this).attr('id').replace('original_', '')).removeAttr('hidden');
+
+            let current_sentence = $('.div-black p.sentence-active').attr('id').replace('original_', '');
+            if (current_sentence == first_sentence) $('#previous-sentence').removeClass('cursor-pointer');
+            else $('#previous-sentence').addClass('cursor-pointer');
+            if (current_sentence == last_sentence) $('#next-sentence').removeClass('cursor-pointer');
+            else $('#next-sentence').addClass('cursor-pointer');
         });
+
+        $('.pagination .page-link').on('click', function () {
+            let current_sentence = parseInt($('.div-black p.sentence-active').attr('id').replace('original_', ''));
+            if ($(this).attr('id') == 'previous-sentence') {
+                if (current_sentence == first_sentence)
+                    return false;
+                else {
+                    $('.div-black p').removeClass('sentence-active');
+                    $('.hyphenated-sentence').attr('hidden', 'hidden');
+                    $('#original_'+(current_sentence-1)).addClass('sentence-active');
+                    $('#structured_'+(current_sentence-1)).removeAttr('hidden');
+
+                    if (current_sentence == first_sentence+1) $('#previous-sentence').removeClass('cursor-pointer');
+                    if (current_sentence == last_sentence) $('#next-sentence').addClass('cursor-pointer');
+                }
+            }
+            if($(this).attr('id') == 'view-all') {
+                $('.div-black p').addClass('sentence-active');
+                $('.hyphenated-sentence').removeAttr('hidden');
+                $('#previous-sentence').removeClass('cursor-pointer');
+                $('#next-sentence').removeClass('cursor-pointer');
+            }
+            if($(this).attr('id') == 'next-sentence') {
+                if (current_sentence == last_sentence || $('.div-black p.sentence-active').length>1)
+                    return false;
+                else {
+                    $('.div-black p').removeClass('sentence-active');
+                    $('.hyphenated-sentence').attr('hidden', 'hidden');
+                    $('#original_'+(current_sentence+1)).addClass('sentence-active');
+                    $('#structured_'+(current_sentence+1)).removeAttr('hidden');
+
+                    if (current_sentence == first_sentence) $('#previous-sentence').addClass('cursor-pointer');
+                    if (current_sentence == last_sentence-1) $('#next-sentence').removeClass('cursor-pointer');
+                }
+            }
+        })
     </script>
 @endsection
