@@ -26,13 +26,16 @@
                                             @endif
                                         @endforeach
                                         @if($title)
-                                            <h3 style="color: #F7898E">{{ $title[min(array_keys($title))] }}</h3>
+                                            @php $pieces = explode(" ", trim($title[min(array_keys($title))])); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
+                                            <h3 style="color: #F7898E">{{ $first_part }}</h3>
                                         @else
-                                            <h3 style="color: #F7898E">{!! $value['lyrics_body'] !!}</h3>
+                                            @php $pieces = explode(" ", trim($value['lyrics_body'])); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
+                                            <h3 style="color: #F7898E">{!! $first_part !!}</h3>
                                         @endisset
                                 </a>
                                 @if(isset($value['lyrics_body']))
-                                    <p>{!! $value['lyrics_body'] !!}</p>
+                                    @php $pieces = explode(" ", trim($value['lyrics_body'])); $first_part = implode(" ", array_splice($pieces, 0, 150)); $other_part = implode(" ", array_splice($pieces, 150)); @endphp
+                                    <p>{!! $first_part !!}</p>
                                 @else
                                     <p>No Lyrics Available</p>
                                 @endif
@@ -49,7 +52,8 @@
                             <div class="container">
                                 <a href="{{ route('write', [$category->id, $value->{$category->type_name .'_id'}]) }}">
                                     @if(isset($value->{'str'. $category->type_name .'_title'}))
-                                        <h3 style="color: #F7898E">{{ $value->{'str'. $category->type_name .'_title'} }}</h3>
+                                        @php $pieces = explode(" ", trim($value->{'str'. $category->type_name .'_title'})); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
+                                        <h3 style="color: #F7898E">{{ $first_part }}</h3>
                                     @else
                                         @php $title = []; @endphp
                                         @foreach(['.',',',':',';'] as $character)
@@ -58,13 +62,16 @@
                                             @endif
                                         @endforeach
                                         @if($title)
-                                            <h3 style="color: #F7898E">{{ $title[min(array_keys($title))] }}</h3>
+                                            @php $pieces = explode(" ", trim($title[min(array_keys($title))])); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
+                                            <h3 style="color: #F7898E">{{ $first_part }}</h3>
                                         @else
-                                            <h3 style="color: #F7898E">{!! $value->{'str'. $category->type_name .'_body'} !!}</h3>
+                                            @php $pieces = explode(" ", trim($value->{'str'. $category->type_name .'_body'})); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
+                                            <h3 style="color: #F7898E">{!! $first_part !!}</h3>
                                         @endisset
                                     @endif
                                 </a>
-                                <p>{!! $value->{'str'. $category->type_name .'_body'} !!}</p>
+                                @php $pieces = explode(" ", trim($value->{'str'. $category->type_name .'_body'})); $first_part = implode(" ", array_splice($pieces, 0, 150)); $other_part = implode(" ", array_splice($pieces, 150)); @endphp
+                                <p>{!! $first_part !!}</p>
                                 <p>Author: <span style="color: #F7898E">{{ $value->{'str'. $category->type_name .'_author'} }}</span></p>
                             </div>
                         @endforeach
@@ -91,13 +98,16 @@
                                                 @endif
                                             @endforeach
                                             @if($title)
-                                                <h3 style="color: #F7898E">{{ $title[min(array_keys($title))] }}</h3>
+                                                @php $pieces = explode(" ", trim($title[min(array_keys($title))])); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
+                                                <h3 style="color: #F7898E">{{ $first_part }}</h3>
                                             @else
-                                                <h3 style="color: #F7898E">{!! $value['lyrics_body'] !!}</h3>
+                                                @php $pieces = explode(" ", trim($value['lyrics_body'])); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
+                                                <h3 style="color: #F7898E">{!! $first_part !!}</h3>
                                             @endisset
                                         </a>
                                         @if(isset($value['lyrics_body']))
-                                            <p>{!! $value['lyrics_body'] !!}</p>
+                                            @php $pieces = explode(" ", trim($value['lyrics_body'])); $first_part = implode(" ", array_splice($pieces, 0, 150)); $other_part = implode(" ", array_splice($pieces, 150)); @endphp
+                                            <p>{!! $first_part !!}</p>
                                         @else
                                             <p>No Lyrics Available</p>
                                         @endif
@@ -116,7 +126,8 @@
                                     <div class="container">
                                         <a href="{{ route('write', [$category_result['type']->id, $value->{$category_result['type']->type_name .'_id'}]) }}">
                                             @if(isset($value->{'str'. $category_result['type']->type_name .'_title'}))
-                                                <h3 style="color: #F7898E">{{ $value->{'str'. $category_result['type']->type_name .'_title'} }}</h3>
+                                                @php $pieces = explode(" ", trim($value->{'str'. $category_result['type']->type_name .'_title'})); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
+                                                <h3 style="color: #F7898E">{{ $first_part }}</h3>
                                             @else
                                                 @php $title = []; @endphp
                                                 @foreach(['.',',',':',';'] as $character)
@@ -125,13 +136,16 @@
                                                     @endif
                                                 @endforeach
                                                 @if($title)
-                                                    <h3 style="color: #F7898E">{{ $title[min(array_keys($title))] }}</h3>
+                                                    @php $pieces = explode(" ", trim($title[min(array_keys($title))])); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
+                                                    <h3 style="color: #F7898E">{{ $first_part }}</h3>
                                                 @else
-                                                    <h3 style="color: #F7898E">{!! $value->{'str'. $category_result['type']->type_name .'_body'} !!}</h3>
+                                                    @php $pieces = explode(" ", trim($value->{'str'. $category_result['type']->type_name .'_body'})); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
+                                                    <h3 style="color: #F7898E">{!! $first_part !!}</h3>
                                                 @endisset
                                             @endif
                                         </a>
-                                        <p>{!! $value->{'str'. $category_result['type']->type_name .'_body'} !!}</p>
+                                        @php $pieces = explode(" ", trim($value->{'str'. $category_result['type']->type_name .'_body'})); $first_part = implode(" ", array_splice($pieces, 0, 150)); $other_part = implode(" ", array_splice($pieces, 150)); @endphp
+                                        <p>{!! $first_part !!}</p>
                                         <p>Author: <span style="color: #F7898E">{{ $value->{'str'. $category_result['type']->type_name .'_author'} }}</span></p>
                                     </div>
                                 @endforeach
