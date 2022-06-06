@@ -88,15 +88,6 @@ class HomeController extends Controller
 
         if (isset($data['category'])) {
             if ($request->filled('search')) {
-                foreach ($data['categories'] as $category) {
-                    if ($data['category']->table_name != $category->table_name) {
-                        $data['categories_result'][]['type'] = $category;
-                        if ($category->id == 5)
-                            $data['categories_result'][sizeof($data['categories_result'])-1]['result'] = self::get_lyric_browse($request->input('search'));
-                        else
-                            $data['categories_result'][sizeof($data['categories_result'])-1]['result'] = self::get_category_browse($category, $request->input('search'))->limit(10)->get();
-                    }
-                }
                 if ($data['category']->id == 5)
                     $data['result'] = self::get_lyric_browse($request->input('search'));
                 else
