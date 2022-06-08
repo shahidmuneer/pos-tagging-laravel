@@ -20,3 +20,5 @@ Route::get('/browse/{id}', [\App\Http\Controllers\HomeController::class, 'browse
 
 Route::get('/write/{category}/{id}', [\App\Http\Controllers\HomeController::class, 'write'])->where('category', '[0-9]+')->where('id', '[0-9]+')->name('write');
 
+Route::post('/get-hyphenated-data', [\App\Http\Controllers\HomeController::class, 'get_hyphenated_data'])->name('get-hyphenated-data');
+

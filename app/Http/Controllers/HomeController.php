@@ -38,19 +38,48 @@ class HomeController extends Controller
             ->select($selected_category->type_name .'_id', 'str'. $selected_category->type_name .'_author', 'str'. $selected_category->type_name .'_title', 'str'. $selected_category->type_name .'_keywords', 'str'. $selected_category->type_name .'_body');
     }
 
+    public function get_hyphenated_data(Request $request)
+    {
+        $data = $this->get_date();
+
+        $request = Request::create('api/pos-tagging', 'GET', ['input'=>$request->data]);
+        \Illuminate\Support\Facades\Request::replace($request->input());
+        $instance = json_decode(Route::dispatch($request)->getContent());
+
+        $request = Request::create('api/syllable-hyphenation', 'GET', ['input'=>$instance->output]);
+        \Illuminate\Support\Facades\Request::replace($request->input());
+        $instance = json_decode(Route::dispatch($request)->getContent());
+
+        $output = '';
+        $detail = array_combine(array_column($data['pos_tags']->toArray(), 'tag'), array_column($data['pos_tags']->toArray(), 'detail'));
+        $color = array_combine(array_column($data['pos_tags']->toArray(), 'tag'), array_column($data['pos_tags']->toArray(), 'color'));
+        $hyphenated_words = array_chunk(explode(' ', $instance->output), '3');
+        foreach($hyphenated_words as $hyphenated_word) {
+            $output .= '<ul style="display: flex;" class="line-height-40">';
+            foreach($hyphenated_word as $key=>$value) {
+                $output .= '<li> <span class="'. (isset($color[explode('_', $value)[1]])?$color[explode('_', $value)[1]]:'line-empty') .'">'. explode('_', $value)[0] .'</span> <p class="line-yellow-1">'. (isset($detail[explode('_', $value)[1]])?$detail[explode('_', $value)[1]]:' ') .'</p></li>';
+            }
+            $output .= '</ul>';
+        }
+
+        return response()->json($output);
+    }
+
     public static function get_write_data($body_string): array
     {
         $write_data['original'] = array_filter(explode('.', strip_tags($body_string)));
-//        $write_data['original'] = [$write_data['original'][1]];
-        foreach ($write_data['original'] as $key=>$original) {
-            $request = Request::create('api/pos-tagging', 'GET', ['input'=>$original]);
-            \Illuminate\Support\Facades\Request::replace($request->input());
-            $instance = json_decode(Route::dispatch($request)->getContent());
+        if (false) {
+            $write_data['original'] = [$write_data['original'][1]];
+            foreach ($write_data['original'] as $key=>$original) {
+                $request = Request::create('api/pos-tagging', 'GET', ['input'=>$original]);
+                \Illuminate\Support\Facades\Request::replace($request->input());
+                $instance = json_decode(Route::dispatch($request)->getContent());
 
-            $request = Request::create('api/syllable-hyphenation', 'GET', ['input'=>$instance->output]);
-            \Illuminate\Support\Facades\Request::replace($request->input());
-            $instance = json_decode(Route::dispatch($request)->getContent());
-            $write_data['hyphenated'][] = $instance->output;
+                $request = Request::create('api/syllable-hyphenation', 'GET', ['input'=>$instance->output]);
+                \Illuminate\Support\Facades\Request::replace($request->input());
+                $instance = json_decode(Route::dispatch($request)->getContent());
+                $write_data['hyphenated'][] = $instance->output;
+            }
         }
         return $write_data;
     }
@@ -129,9 +158,6 @@ class HomeController extends Controller
             }
         }
         else abort(404);
-
-        $data['detail'] = array_combine(array_column($data['pos_tags']->toArray(), 'tag'), array_column($data['pos_tags']->toArray(), 'detail'));
-        $data['color'] = array_combine(array_column($data['pos_tags']->toArray(), 'tag'), array_column($data['pos_tags']->toArray(), 'color'));
 
         return view('write')->with($data);
     }
