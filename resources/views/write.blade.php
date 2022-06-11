@@ -21,7 +21,9 @@
             </div>
             <div class="col-lg-6 col-md-6 mt-50 padding-60">
                 <!-- <p>Free Edit</p> -->
-                <div class="hyphenated-sentence"></div>
+                <div class="hyphenated-sentence">
+                    Click any sentence to show results here
+                </div>
                 <ul class="pagination" style="margin-top: 30px;">
                     <li class="page-item"><p class="page-link" id="previous-sentence">&laquo; Previous Sentence</p></li>
                     <li class="page-item"><p class="page-link cursor-pointer" id="view-all">View all</p></li>
