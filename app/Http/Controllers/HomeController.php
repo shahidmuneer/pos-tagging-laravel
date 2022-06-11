@@ -54,13 +54,13 @@ class HomeController extends Controller
         $detail = array_combine(array_column($data['pos_tags']->toArray(), 'tag'), array_column($data['pos_tags']->toArray(), 'detail'));
         $color = array_combine(array_column($data['pos_tags']->toArray(), 'tag'), array_column($data['pos_tags']->toArray(), 'color'));
         $hyphenated_words = array_chunk(explode(' ', $instance->output), '3');
+        $output .= '<ul style="display: flex;" class="line-height-40">';
         foreach($hyphenated_words as $hyphenated_word) {
-            $output .= '<ul style="display: flex;" class="line-height-40">';
             foreach($hyphenated_word as $key=>$value) {
                 $output .= '<li> <span class="'. (isset($color[explode('_', $value)[1]])?$color[explode('_', $value)[1]]:'line-empty') .'">'. explode('_', $value)[0] .'</span> <p class="line-yellow-1">'. (isset($detail[explode('_', $value)[1]])?$detail[explode('_', $value)[1]]:' ') .'</p></li>';
             }
-            $output .= '</ul>';
         }
+        $output .= '</ul>';
 
         return response()->json($output);
     }
@@ -146,14 +146,34 @@ class HomeController extends Controller
                 $client = new \GuzzleHttp\Client();
                 $response = $client->get('http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id='. $id .'&apikey=48028391abc6e6a2cfa175efc94f6103')->getBody();
                 $result = json_decode($response)->message;
-                if ($result->header->status_code == 200)
+                if ($result->header->status_code == 200) {
                     $data['result'] = self::get_write_data(explode('...', $result->body->lyrics->lyrics_body)[0]);
+                    $response = $client->get('http://api.musixmatch.com/ws/1.1/track.get?track_id='. $id .'&apikey=48028391abc6e6a2cfa175efc94f6103')->getBody();
+                    $data['title'] = json_decode($response)->message->body->track->track_name;
+                    $data['name'] = json_decode($response)->message->body->track->artist_name;
+                }
                 else abort(404);
             }
             else {
                 $result = DB::table($data['category']->table_name)->where($data['category']->type_name.'_id', $id)->get()->first();
-                if (isset($result))
+                if (isset($result)) {
                     $data['result'] = self::get_write_data($result->{'str'. $data['category']->type_name .'_body'});
+                    $data['title'] = $result->{'str'. $data['category']->type_name .'_title'};
+                    if (!isset($data['title'])) {
+                        $title = [];
+                        foreach(['.',',',':',';',"'"] as $character) {
+                            if(str_contains($result->{'str'. $data['category']->type_name .'_body'}, $character))
+                                $title[strlen(explode($character, $result->{'str'. $data['category']->type_name .'_body'})[0])] = explode($character, $result->{'str'. $data['category']->type_name .'_body'})[0];
+                        }
+                        if (!empty($title))
+                            $pieces = explode(" ", trim($title[min(array_keys($title))]));
+                        else
+                            $pieces = explode(" ", trim($result->{'str'. $data['category']->type_name .'_body'}));
+                        $first_part = implode(" ", array_splice($pieces, 0, 10));
+                        $data['title'] = $first_part;
+                    }
+                    $data['name'] = $result->{'str'. $data['category']->type_name .'_author'};
+                }
                 else abort(404);
             }
         }
@@ -161,4 +181,19 @@ class HomeController extends Controller
 
         return view('write')->with($data);
     }
+
+    public function show(Request $request, $id=null)
+    {
+        $data = $this->get_date();
+
+        if (isset($id))
+            $data['category'] = DB::table('stc_category_types')->find($id);
+        else
+            $data['category'] = DB::table('stc_category_types')->get()->first();
+        if (!isset($data['category']))
+            abort(404);
+
+        return view('show')->with($data);
+    }
+
 }

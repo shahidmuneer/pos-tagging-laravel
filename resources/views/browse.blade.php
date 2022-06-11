@@ -19,19 +19,19 @@
                         @foreach($result as $key=>$value)
                             <div class="container">
                                 <a href="{{ route('write', [$category->id, $value['track_id']]) }}">
-                                        @php $title = []; @endphp
-                                        @foreach(['.',',',':',';',"'"] as $character)
-                                            @if(str_contains($value['lyrics_body'], $character))
-                                                @php $title[strlen(explode($character, $value['lyrics_body'])[0])] = explode($character, $value['lyrics_body'])[0]; @endphp
-                                            @endif
-                                        @endforeach
-                                        @if($title)
-                                            @php $pieces = explode(" ", trim($title[min(array_keys($title))])); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
-                                            <h3 style="color: #F7898E">{{ $first_part }}</h3>
-                                        @else
-                                            @php $pieces = explode(" ", trim($value['lyrics_body'])); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
-                                            <h3 style="color: #F7898E">{!! $first_part !!}</h3>
-                                        @endisset
+                                    @php $title = []; @endphp
+                                    @foreach(['.',',',':',';',"'"] as $character)
+                                        @if(str_contains($value['lyrics_body'], $character))
+                                            @php $title[strlen(explode($character, $value['lyrics_body'])[0])] = explode($character, $value['lyrics_body'])[0]; @endphp
+                                        @endif
+                                    @endforeach
+                                    @if($title)
+                                        @php $pieces = explode(" ", trim($title[min(array_keys($title))])); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
+                                        <h3 style="color: #F7898E">{{ $first_part }}</h3>
+                                    @else
+                                        @php $pieces = explode(" ", trim($value['lyrics_body'])); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
+                                        <h3 style="color: #F7898E">{!! $first_part !!}</h3>
+                                    @endisset
                                 </a>
                                 @if(isset($value['lyrics_body']))
                                     @php $pieces = explode(" ", trim($value['lyrics_body'])); $first_part = implode(" ", array_splice($pieces, 0, 150)); $other_part = implode(" ", array_splice($pieces, 150)); @endphp

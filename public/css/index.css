@@ -105,14 +105,11 @@ ul{
     color: red;
 }
 .div-black{
-    background-color: black;
     color: white;
     padding-top: 75px;
     padding-bottom: 20px;
     padding-right: 180px;
     padding-left:70px;
-    overflow-y: scroll;
-    height: 620px;
 }
 
 .sentence-active {
@@ -130,6 +127,12 @@ ul{
     margin-left: 10px;
 }
 
+.scroll-1{
+    background-color: black;
+    overflow-y: scroll;
+    height: 600px;
+    color: white;
+}
 .line-gray{
  border-bottom: 2px solid gray;
     margin-left: 10px;
