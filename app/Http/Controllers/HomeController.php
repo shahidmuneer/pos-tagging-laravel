@@ -57,7 +57,7 @@ class HomeController extends Controller
         $output .= '<ul class="line-height-40">';
         foreach($hyphenated_words as $hyphenated_word) {
             foreach($hyphenated_word as $key=>$value) {
-                $output .= '<li> <span class="'. (isset($color[explode('_', $value)[1]])?$color[explode('_', $value)[1]]:'line-empty') .'">'. explode('_', $value)[0] .'</span> <p class="line-yellow-1">'. (isset($detail[explode('_', $value)[1]])?$detail[explode('_', $value)[1]]:' ') .'</p></li>';
+                $output .= '<li> <span class="'. (isset($color[explode('_', $value)[1]])?$color[explode('_', $value)[1]]:'line-empty') .'"><input style="border: none; border-color: transparent;" class="form-control" placeholder="'. explode('_', $value)[0] .'"></span> <p class="line-yellow-1">'. (isset($detail[explode('_', $value)[1]])?$detail[explode('_', $value)[1]]:'|') .'</p></li>';
             }
         }
         $output .= '</ul>';
@@ -149,7 +149,18 @@ class HomeController extends Controller
                 if ($result->header->status_code == 200) {
                     $data['result'] = self::get_write_data(explode('...', $result->body->lyrics->lyrics_body)[0]);
                     $response = $client->get('http://api.musixmatch.com/ws/1.1/track.get?track_id='. $id .'&apikey=48028391abc6e6a2cfa175efc94f6103')->getBody();
-                    $data['title'] = json_decode($response)->message->body->track->track_name;
+//                    $data['title'] = json_decode($response)->message->body->track->track_name;
+                    $title = [];
+                    foreach(['.',',',':',';',"'"] as $character) {
+                        if(str_contains($result->body->lyrics->lyrics_body, $character))
+                            $title[strlen(explode($character, $result->body->lyrics->lyrics_body)[0])] = explode($character, $result->body->lyrics->lyrics_body)[0];
+                    }
+                    if (!empty($title))
+                        $pieces = explode(" ", trim($title[min(array_keys($title))]));
+                    else
+                        $pieces = explode(" ", trim($result->body->lyrics->lyrics_body));
+                    $first_part = implode(" ", array_splice($pieces, 0, 10));
+                    $data['title'] = $first_part;
                     $data['name'] = json_decode($response)->message->body->track->artist_name;
                 }
                 else abort(404);
