@@ -54,7 +54,7 @@ class HomeController extends Controller
         $detail = array_combine(array_column($data['pos_tags']->toArray(), 'tag'), array_column($data['pos_tags']->toArray(), 'detail'));
         $color = array_combine(array_column($data['pos_tags']->toArray(), 'tag'), array_column($data['pos_tags']->toArray(), 'color'));
         $hyphenated_words = array_chunk(explode(' ', $instance->output), '3');
-        $output .= '<ul style="display: flex;" class="line-height-40">';
+        $output .= '<ul style="display: flex; width:max-content;" class="line-height-40">';
         foreach($hyphenated_words as $hyphenated_word) {
             foreach($hyphenated_word as $key=>$value) {
                 $output .= '<li> <span class="'. (isset($color[explode('_', $value)[1]])?$color[explode('_', $value)[1]]:'line-empty') .'">'. explode('_', $value)[0] .'</span> <p class="line-yellow-1">'. (isset($detail[explode('_', $value)[1]])?$detail[explode('_', $value)[1]]:' ') .'</p></li>';
