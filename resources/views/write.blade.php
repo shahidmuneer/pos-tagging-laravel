@@ -92,8 +92,10 @@
                 localStorage.setItem('title', $('#track_name').text());
                 localStorage.setItem('name', $('#artist_name').text());
                 let data = '';
+                let val;
                 $('.hyphenated-sentence input').each(function(){
-                    data = data + $(this).val() + " ";
+                    val=$(this).val()==''?'________':$(this).val();
+                    data = data + val + " ";
                 });
                 localStorage.setItem('body', data);
                 window.location.href = '{{ route('show', $category->id) }}';

@@ -11,7 +11,7 @@
     <script>
         $(document).ready(function () {
             $('#saved-title').append((localStorage.getItem('title')||'')+'<br>'+(localStorage.getItem('name')||'')+'<br><span>|</span>');
-            $('#saved-body').append(localStorage.getItem('body')||'');
+            $('#saved-body').append(localStorage.getItem('body')||'_____');
         })
     </script>
 @endsection
