@@ -42,8 +42,14 @@
                 url: "{{ route('get-hyphenated-data') }}",
                 dataType: "json",
                 data: { '_token': '{{ csrf_token() }}', 'data':  $(this).text()}
-            }).done(function( hyphenated ) {
-                $('.hyphenated-sentence').empty().append(hyphenated);
+            }).done(function( hyphenated_data ) {
+                let hyphenated_html = '<ul class="line-height-40">'
+                for (let i=0; i<hyphenated_data.value.length; i++) {
+                    hyphenated_html += '<li> <span class="'+ hyphenated_data.color[i] +'"><input style="border: none; border-color: transparent;" class="form-control" placeholder="'+ hyphenated_data.value[i] +'"></span> <p class="line-yellow-1">'+ hyphenated_data.detail[i] +'</p></li>'
+                }
+                hyphenated_html += '</ul>';
+
+                $('.hyphenated-sentence').empty().append(hyphenated_html);
 
                 $('.div-black .original-sentence').removeClass('sentence-active');
                 $(element).addClass('sentence-active');
