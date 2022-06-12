@@ -22,6 +22,7 @@
             <div class="col-lg-6 col-md-6 mt-50 padding-60">
                 <div class="hyphenated-sentence">
                 Click any sentence to show results here
+                <i id='loading' style='display:none;' class='fa fa-spinner fa-spin'></i>
                 </div>
                 <ul class="pagination" style="margin-top: 30px;">
                     <li class="page-item"><p class="page-link" id="previous-sentence">&laquo; Previous Sentence</p></li>
@@ -40,6 +41,7 @@
         let first_sentence = parseInt($('.div-black .original-sentence:first').attr('id').replace('original_', ''));
         let last_sentence = parseInt($('.div-black .original-sentence:last').attr('id').replace('original_', ''));
         $('.div-black .original-sentence').on('click', function () {
+            $("#loading").show();
             if ($('.div-black .original-sentence.sentence-active').attr('id') == $(this).attr('id'))
                 return false;
             let data = '';
@@ -59,6 +61,7 @@
                 dataType: "json",
                 data: { '_token': '{{ csrf_token() }}', 'data':  $(this).text()}
             }).done(function( hyphenated_data ) {
+                $("#loading").hide();
                 let hyphenated_html = '<ul class="line-height-40">'
                 for (let i=0; i<hyphenated_data.value.length; i++) {
                     hyphenated_html += '<li> <span class="'+ hyphenated_data.color[i] +'"><input style="border: none; border-color: transparent;" class="form-control" placeholder="'+ hyphenated_data.value[i] +'"></span> <p class="line-yellow-1">'+ hyphenated_data.detail[i] +'</p></li>'
@@ -78,7 +81,9 @@
         });
 
         $('.pagination .page-link').on('click', function () {
+            $("#loading").show();
             let current_sentence = -1;
+
             if($('.div-black .original-sentence.sentence-active').length != 0)
                 current_sentence = parseInt($('.div-black .original-sentence.sentence-active').attr('id').replace('original_', ''));
             if ($(this).attr('id') == 'previous-sentence') {
@@ -101,6 +106,7 @@
                         dataType: "json",
                         data: { '_token': '{{ csrf_token() }}', 'data':  $('#original_'+(current_sentence-1)).text()}
                     }).done(function( hyphenated_data ) {
+                        $("#loading").hide();
                         let hyphenated_html = '<ul class="line-height-40">'
                         for (let i=0; i<hyphenated_data.value.length; i++) {
                             hyphenated_html += '<li> <span class="'+ hyphenated_data.color[i] +'"><input style="border: none; border-color: transparent;" class="form-control" placeholder="'+ hyphenated_data.value[i] +'"></span> <p class="line-yellow-1">'+ hyphenated_data.detail[i] +'</p></li>'
