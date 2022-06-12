@@ -35,9 +35,23 @@
 @endsection
 @section('scripts')
     <script>
+        localStorage.setItem('title', $('#track_name').text());
+        localStorage.setItem('name', $('#artist_name').text());
         let first_sentence = parseInt($('.div-black .original-sentence:first').attr('id').replace('original_', ''));
         let last_sentence = parseInt($('.div-black .original-sentence:last').attr('id').replace('original_', ''));
         $('.div-black .original-sentence').on('click', function () {
+            if ($('.div-black .original-sentence.sentence-active').attr('id') == $(this).attr('id'))
+                return false;
+            let data = '';
+            let empty = true;
+            $('.hyphenated-sentence input').each(function(){
+                if ($(this).val() != '')
+                    empty = false;
+                data = data + ($(this).val()==''?'________':$(this).val()) + " ";
+            });
+            if (!empty)
+                localStorage.setItem('body', (localStorage.getItem('body')||'') + '\n' + data);
+
             let element = this;
             $.ajax({
                 type: "POST",
@@ -50,7 +64,6 @@
                     hyphenated_html += '<li> <span class="'+ hyphenated_data.color[i] +'"><input style="border: none; border-color: transparent;" class="form-control" placeholder="'+ hyphenated_data.value[i] +'"></span> <p class="line-yellow-1">'+ hyphenated_data.detail[i] +'</p></li>'
                 }
                 hyphenated_html += '</ul>';
-
                 $('.hyphenated-sentence').empty().append(hyphenated_html);
 
                 $('.div-black .original-sentence').removeClass('sentence-active');
@@ -72,13 +85,28 @@
                 if (current_sentence == first_sentence)
                     return false;
                 else {
+                    let data = '';
+                    let empty = true;
+                    $('.hyphenated-sentence input').each(function(){
+                        if ($(this).val() != '')
+                            empty = false;
+                        data = data + ($(this).val()==''?'________':$(this).val()) + " ";
+                    });
+                    if (!empty)
+                        localStorage.setItem('body', (localStorage.getItem('body')||'') + '\n' + data);
+
                     $.ajax({
                         type: "POST",
                         url: "{{ route('get-hyphenated-data') }}",
                         dataType: "json",
                         data: { '_token': '{{ csrf_token() }}', 'data':  $('#original_'+(current_sentence-1)).text()}
-                    }).done(function( hyphenated ) {
-                        $('.hyphenated-sentence').empty().append(hyphenated);
+                    }).done(function( hyphenated_data ) {
+                        let hyphenated_html = '<ul class="line-height-40">'
+                        for (let i=0; i<hyphenated_data.value.length; i++) {
+                            hyphenated_html += '<li> <span class="'+ hyphenated_data.color[i] +'"><input style="border: none; border-color: transparent;" class="form-control" placeholder="'+ hyphenated_data.value[i] +'"></span> <p class="line-yellow-1">'+ hyphenated_data.detail[i] +'</p></li>'
+                        }
+                        hyphenated_html += '</ul>';
+                        $('.hyphenated-sentence').empty().append(hyphenated_html);
 
                         $('.div-black .original-sentence').removeClass('sentence-active');
                         $('#original_'+(current_sentence-1)).addClass('sentence-active');
@@ -89,28 +117,43 @@
                 }
             }
             if($(this).attr('id') == 'view-all') {
-                localStorage.setItem('title', $('#track_name').text());
-                localStorage.setItem('name', $('#artist_name').text());
                 let data = '';
-                let val;
+                let empty = true;
                 $('.hyphenated-sentence input').each(function(){
-                    val=$(this).val()==''?'________':$(this).val();
-                    data = data + val + " ";
+                    if ($(this).val() != '')
+                        empty = false;
+                    data = data + ($(this).val()==''?'________':$(this).val()) + " ";
                 });
-                localStorage.setItem('body', data);
+                if (!empty)
+                    localStorage.setItem('body', (localStorage.getItem('body')||'') + '\n' + data);
                 window.location.href = '{{ route('show', $category->id) }}';
             }
             if($(this).attr('id') == 'next-sentence') {
                 if (current_sentence == last_sentence || $('.div-black .original-sentence.sentence-active').length>1)
                     return false;
                 else {
+                    let data = '';
+                    let empty = true;
+                    $('.hyphenated-sentence input').each(function(){
+                        if ($(this).val() != '')
+                            empty = false;
+                        data = data + ($(this).val()==''?'________':$(this).val()) + " ";
+                    });
+                    if (!empty)
+                        localStorage.setItem('body', (localStorage.getItem('body')||'') + '\n' + data);
+
                     $.ajax({
                         type: "POST",
                         url: "{{ route('get-hyphenated-data') }}",
                         dataType: "json",
                         data: { '_token': '{{ csrf_token() }}', 'data':  $('#original_'+(current_sentence+1)).text()}
-                    }).done(function( hyphenated ) {
-                        $('.hyphenated-sentence').empty().append(hyphenated);
+                    }).done(function( hyphenated_data ) {
+                        let hyphenated_html = '<ul class="line-height-40">'
+                        for (let i=0; i<hyphenated_data.value.length; i++) {
+                            hyphenated_html += '<li> <span class="'+ hyphenated_data.color[i] +'"><input style="border: none; border-color: transparent;" class="form-control" placeholder="'+ hyphenated_data.value[i] +'"></span> <p class="line-yellow-1">'+ hyphenated_data.detail[i] +'</p></li>'
+                        }
+                        hyphenated_html += '</ul>';
+                        $('.hyphenated-sentence').empty().append(hyphenated_html);
 
                         $('.div-black .original-sentence').removeClass('sentence-active');
                         $('#original_'+(current_sentence+1)).addClass('sentence-active');
@@ -121,5 +164,9 @@
                 }
             }
         });
+
+        $('.hyphenated-sentence').on('blur', 'input', function () {
+            localStorage.setItem('body', data);
+        })
     </script>
 @endsection
