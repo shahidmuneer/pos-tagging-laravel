@@ -21,8 +21,11 @@ class HomeController extends Controller
                 $lyric_data[sizeof($lyric_data)-1]['track_id'] = $track_list->track->track_id;
                 $response = $client->get('http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id='. $track_list->track->track_id .'&apikey=48028391abc6e6a2cfa175efc94f6103')->getBody();
                 $result = json_decode($response)->message;
-                if ($result->header->status_code == 200)
+                if ($result->header->status_code == 200) {
                     $lyric_data[sizeof($lyric_data)-1]['lyrics_body'] = explode('...', $result->body->lyrics->lyrics_body)[0];
+                    $response = $client->get('http://api.musixmatch.com/ws/1.1/track.get?track_id='. $track_list->track->track_id .'&apikey=48028391abc6e6a2cfa175efc94f6103')->getBody();
+                    $lyric_data[sizeof($lyric_data)-1]['title'] = json_decode($response)->message->body->track->track_name;
+                }
             }
         }
         return $lyric_data;
@@ -50,7 +53,6 @@ class HomeController extends Controller
         \Illuminate\Support\Facades\Request::replace($request->input());
         $instance = json_decode(Route::dispatch($request)->getContent());
 
-        $output = '';
         $detail = array_combine(array_column($data['pos_tags']->toArray(), 'tag'), array_column($data['pos_tags']->toArray(), 'detail'));
         $color = array_combine(array_column($data['pos_tags']->toArray(), 'tag'), array_column($data['pos_tags']->toArray(), 'color'));
         $hyphenated_words = explode(' ', $instance->output);
@@ -62,25 +64,6 @@ class HomeController extends Controller
         }
 
         return response()->json($data);
-    }
-
-    public static function get_write_data($body_string): array
-    {
-        $write_data['original'] = array_filter(explode('.', strip_tags($body_string)));
-        if (false) {
-            $write_data['original'] = [$write_data['original'][1]];
-            foreach ($write_data['original'] as $key=>$original) {
-                $request = Request::create('api/pos-tagging', 'GET', ['input'=>$original]);
-                \Illuminate\Support\Facades\Request::replace($request->input());
-                $instance = json_decode(Route::dispatch($request)->getContent());
-
-                $request = Request::create('api/syllable-hyphenation', 'GET', ['input'=>$instance->output]);
-                \Illuminate\Support\Facades\Request::replace($request->input());
-                $instance = json_decode(Route::dispatch($request)->getContent());
-                $write_data['hyphenated'][] = $instance->output;
-            }
-        }
-        return $write_data;
     }
 
     public function get_date(): array
@@ -146,20 +129,9 @@ class HomeController extends Controller
                 $response = $client->get('http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id='. $id .'&apikey=48028391abc6e6a2cfa175efc94f6103')->getBody();
                 $result = json_decode($response)->message;
                 if ($result->header->status_code == 200) {
-                    $data['result'] = self::get_write_data(explode('...', $result->body->lyrics->lyrics_body)[0]);
+                    $data['result']['original'] = array_filter(preg_split('/(?<!Mr.|Ms.|Mrs.|Dr.)(?<=[.?!;:])\s+/', strip_tags(explode('...', $result->body->lyrics->lyrics_body)[0]), -1, PREG_SPLIT_NO_EMPTY));
                     $response = $client->get('http://api.musixmatch.com/ws/1.1/track.get?track_id='. $id .'&apikey=48028391abc6e6a2cfa175efc94f6103')->getBody();
-//                    $data['title'] = json_decode($response)->message->body->track->track_name;
-                    $title = [];
-                    foreach(['.',',',':',';',"'"] as $character) {
-                        if(str_contains($result->body->lyrics->lyrics_body, $character))
-                            $title[strlen(explode($character, $result->body->lyrics->lyrics_body)[0])] = explode($character, $result->body->lyrics->lyrics_body)[0];
-                    }
-                    if (!empty($title))
-                        $pieces = explode(" ", trim($title[min(array_keys($title))]));
-                    else
-                        $pieces = explode(" ", trim($result->body->lyrics->lyrics_body));
-                    $first_part = implode(" ", array_splice($pieces, 0, 10));
-                    $data['title'] = $first_part;
+                    $data['title'] = json_decode($response)->message->body->track->track_name;
                     $data['name'] = json_decode($response)->message->body->track->artist_name;
                 }
                 else abort(404);
@@ -167,21 +139,10 @@ class HomeController extends Controller
             else {
                 $result = DB::table($data['category']->table_name)->where($data['category']->type_name.'_id', $id)->get()->first();
                 if (isset($result)) {
-                    $data['result'] = self::get_write_data($result->{'str'. $data['category']->type_name .'_body'});
+                    $data['result']['original'] = array_filter(preg_split('/(?<!Mr.|Ms.|Mrs.|Dr.)(?<=[.?!;:])\s+/', strip_tags($result->{'str'. $data['category']->type_name .'_body'}), -1, PREG_SPLIT_NO_EMPTY));
                     $data['title'] = $result->{'str'. $data['category']->type_name .'_title'};
-                    if (!isset($data['title'])) {
-                        $title = [];
-                        foreach(['.',',',':',';',"'"] as $character) {
-                            if(str_contains($result->{'str'. $data['category']->type_name .'_body'}, $character))
-                                $title[strlen(explode($character, $result->{'str'. $data['category']->type_name .'_body'})[0])] = explode($character, $result->{'str'. $data['category']->type_name .'_body'})[0];
-                        }
-                        if (!empty($title))
-                            $pieces = explode(" ", trim($title[min(array_keys($title))]));
-                        else
-                            $pieces = explode(" ", trim($result->{'str'. $data['category']->type_name .'_body'}));
-                        $first_part = implode(" ", array_splice($pieces, 0, 10));
-                        $data['title'] = $first_part;
-                    }
+                    if (!isset($data['title']))
+                        $data['title'] = preg_split('/(?<!Mr.|Ms.|Mrs.|Dr.)(?<=[.?!;:,’\'"])\s+/', strip_tags($result->{'str'. $data['category']->type_name .'_body'}), -1, PREG_SPLIT_NO_EMPTY)[0];
                     $data['name'] = $result->{'str'. $data['category']->type_name .'_author'};
                 }
                 else abort(404);

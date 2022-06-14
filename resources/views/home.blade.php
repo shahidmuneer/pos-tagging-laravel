@@ -11,11 +11,11 @@
                         <input type="text" class="form-control br-0" placeholder="Search by Author, Title, or Keyword" value="{{ old('search') }}" name="search">
                         <div class="dropdown">
                             <button type="button" class="btn" data-toggle="dropdown" style="border-radius: 0; border-left: 0;">
-                                | {{ $category->type_name }}
+                                | {{ $category->display_name }}
                             </button>
                             <div class="dropdown-menu">
                                 @foreach($categories as $key=>$value)
-                                    <a class="dropdown-item" href="{{ route('home', $value->id) }}">{{ $value->type_name}}</a>
+                                    <a class="dropdown-item" href="{{ route('home', $value->id) }}">{{ $value->display_name}}</a>
                                 @endforeach
                             </div>
                         </div>
