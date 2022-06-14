@@ -13,7 +13,7 @@
                             </div>
                         @endforeach
                     @endisset
-                    <div style="float: right;">
+                    <div style="float: right;" class="mt-3">
                         <p id="track_name" style="margin-bottom: 0;">{{ $title }}</p>
                         <p id="artist_name">{{ $name }}</p>
                     </div>
