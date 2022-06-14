@@ -71,7 +71,6 @@
 
                 $('.div-black .original-sentence').removeClass('sentence-active');
                 $(element).addClass('sentence-active');
-
                 let current_sentence = $('.div-black .original-sentence.sentence-active').attr('id').replace('original_', '');
                 if (current_sentence == first_sentence) $('#previous-sentence').removeClass('cursor-pointer');
                 else $('#previous-sentence').addClass('cursor-pointer');

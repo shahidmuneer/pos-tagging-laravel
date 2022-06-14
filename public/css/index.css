@@ -118,13 +118,16 @@ ul{
 .cursor-pointer {
     cursor: pointer;
 }
-.line-empty{
-    border-bottom: 2px solid grey;
+.line-empty input{
+    border-bottom: 2px solid grey!important;
     margin-left: 10px;
+    
+    border-radius:0px;
 }
-.line-grey{
-    border-bottom: 2px solid grey;
+.line-grey input{
+    border-bottom: 2px solid grey!important;
     margin-left: 10px;
+    border-radius:0px;
 }
 
 .scroll-1{
@@ -133,38 +136,42 @@ ul{
     height: 600px;
     color: white;
 }
-.line-gray{
- border-bottom: 2px solid gray;
+.line-gray input{
+ border-bottom: 2px solid gray!important;
     margin-left: 10px;
-
+    
+    border-radius:0px;
 }
 .line-height-40{
     font-size: 24px;
     font-weight: 400;
 }
-.line-yellow{
-        border-bottom: 2px solid yellow;
+.line-yellow input{
+        border-bottom: 2px solid yellow!important;
      margin-left: 10px;
-
+    border-radius:0px;
 }
 .line-yellow-1{
     font-size: 11px;
     margin-left: 10px;
 }
-.line-green{
-     border-bottom: 2px solid green;
-     margin-left: 10px;
+.line-green input{
+    border-bottom: 2px solid green!important;
+    margin-left: 10px;
+    border-radius:0px;
 
 }
 
-.line-purple{
-     border-bottom: 2px solid purple;
+.line-purple input{
+     border-bottom: 2px solid purple!important;
      margin-left: 10px;
-
+    border-radius:0px;
 }
-.line-pink{
-     border-bottom: 2px solid pink;
+.line-pink input{
+     border-bottom: 2px solid pink!important;
      margin-left: 10px;
+     
+    border-radius:0px;
 
 
 }
