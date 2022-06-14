@@ -32,13 +32,23 @@ class HomeController extends Controller
     }
     public static function get_category_browse($selected_category, $search_data): \Illuminate\Database\Query\Builder
     {
-        return DB::table($selected_category->table_name)
-            ->orWhere('str'. $selected_category->type_name .'_author', 'like', '%'.$search_data.'%' )
-            ->orWhere('str'. $selected_category->type_name .'_title', 'like', '%'.$search_data.'%' )
-            ->orWhere('str'. $selected_category->type_name .'_keywords', 'like', '%'.$search_data.'%' )
-            ->groupBy([$selected_category->type_name .'_id', 'str'. $selected_category->type_name .'_author', 'str'. $selected_category->type_name .'_title', 'str'. $selected_category->type_name .'_keywords', 'str'. $selected_category->type_name .'_body'])
-            ->orderBy('str'. $selected_category->type_name .'_author')
-            ->select($selected_category->type_name .'_id', 'str'. $selected_category->type_name .'_author', 'str'. $selected_category->type_name .'_title', 'str'. $selected_category->type_name .'_keywords', 'str'. $selected_category->type_name .'_body');
+        if ($selected_category->table_name == 'tbl_short_stories') {
+            return DB::connection('mysql2')->table('project_gutenberg')
+                ->orWhere('author', 'like', '%'.$search_data.'%' )
+                ->orWhere('title', 'like', '%'.$search_data.'%' )
+                ->groupBy(['Gutenberg_id', 'author', 'title', 'book_text'])
+                ->orderBy('author')
+                ->select('Gutenberg_id as '.$selected_category->type_name .'_id', 'author as ' . 'str'. $selected_category->type_name .'_author', 'title as ' . 'str'. $selected_category->type_name .'_title', 'book_text as ' . 'str'. $selected_category->type_name .'_body');
+        }
+        else {
+            return DB::table($selected_category->table_name)
+                ->orWhere('str'. $selected_category->type_name .'_author', 'like', '%'.$search_data.'%' )
+                ->orWhere('str'. $selected_category->type_name .'_title', 'like', '%'.$search_data.'%' )
+                ->orWhere('str'. $selected_category->type_name .'_keywords', 'like', '%'.$search_data.'%' )
+                ->groupBy([$selected_category->type_name .'_id', 'str'. $selected_category->type_name .'_author', 'str'. $selected_category->type_name .'_title', 'str'. $selected_category->type_name .'_keywords', 'str'. $selected_category->type_name .'_body'])
+                ->orderBy('str'. $selected_category->type_name .'_author')
+                ->select($selected_category->type_name .'_id', 'str'. $selected_category->type_name .'_author', 'str'. $selected_category->type_name .'_title', 'str'. $selected_category->type_name .'_keywords', 'str'. $selected_category->type_name .'_body');
+        }
     }
 
     public function get_hyphenated_data(Request $request)
@@ -137,7 +147,15 @@ class HomeController extends Controller
                 else abort(404);
             }
             else {
-                $result = DB::table($data['category']->table_name)->where($data['category']->type_name.'_id', $id)->get()->first();
+                if ($data['category']->table_name == 'tbl_short_stories') {
+                    $result = DB::connection('mysql2')->table('project_gutenberg')
+                        ->where('Gutenberg_id', $id)
+                        ->select('Gutenberg_id as '.$data['category']->type_name .'_id', 'author as ' . 'str'. $data['category']->type_name .'_author', 'title as ' . 'str'. $data['category']->type_name .'_title', 'book_text as ' . 'str'. $data['category']->type_name .'_body')
+                        ->get()->first();
+                }
+                else {
+                    $result = DB::table($data['category']->table_name)->where($data['category']->type_name.'_id', $id)->get()->first();
+                }
                 if (isset($result)) {
                     $data['result']['original'] = array_filter(preg_split('/(?<!Mr.|Ms.|Mrs.|Dr.)(?<=[.?!;:])\s+/', strip_tags($result->{'str'. $data['category']->type_name .'_body'}), -1, PREG_SPLIT_NO_EMPTY));
                     $data['title'] = $result->{'str'. $data['category']->type_name .'_title'};
