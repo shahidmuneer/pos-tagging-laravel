@@ -7,9 +7,9 @@
                 <div class="div-black">
                     @isset($result['original'])
                         @foreach($result['original'] as $key=>$value)
-                            <div style="display: flex;">
-                                <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                                <p style="cursor: pointer;" class="original-sentence" id="original_{{ $key }}">{!! $value !!}</p>
+                            <div style="display: inline;">
+{{--                                <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>--}}
+                                <p style="cursor: pointer; display: inline;" class="original-sentence" id="original_{{ $key }}">{!! $value !!}</p>
                             </div>
                         @endforeach
                     @endisset
