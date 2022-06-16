@@ -26,3 +26,11 @@ Route::get("get-navbar-categories", function () {
     return response()->json(DB::table('stc_category_types')->get()->toArray());
 })->name('get-navbar-categories');
 
+Route::get("arrange-storage-data", function (Request $request) {
+    $data = json_decode($request->body, true);
+    foreach (json_decode($request->words) as $key=>$word) {
+        $data[$request->category][$request->paragraph][$request->sentence][$key] = $word;
+    }
+    return response()->json($data);
+})->name('arrange-storage-data');
+

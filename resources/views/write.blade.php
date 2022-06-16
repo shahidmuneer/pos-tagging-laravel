@@ -36,6 +36,9 @@
 @endsection
 @section('scripts')
     <script>
+        let url_array = window.location.href.split("/")
+        let category = url_array[url_array.length-2];
+        let paragraph = url_array[url_array.length-1];
         localStorage.setItem('title', $('#track_name').text());
         localStorage.setItem('name', $('#artist_name').text());
         let first_sentence = parseInt($('.div-black .original-sentence:first').attr('id').replace('original_', ''));
@@ -44,15 +47,22 @@
             $("#loading").show();
             if ($('.div-black .original-sentence.sentence-active').attr('id') == $(this).attr('id'))
                 return false;
-            let data = '';
+            let data = [];
             let empty = true;
-            $('.hyphenated-sentence input').each(function(){
+            $('.hyphenated-sentence input').each(function(i){
                 if ($(this).val() != '')
                     empty = false;
-                data = data + ($(this).val()==''?'________':$(this).val()) + " ";
+                data.push(($(this).val()==''?'________':$(this).val()));
             });
-            if (!empty)
-                localStorage.setItem('body', (localStorage.getItem('body')||'') + '\n' + data);
+            if (!empty) {
+                jQuery.ajax({
+                    url: '{{ route('arrange-storage-data') }}?category='+category+'&paragraph='+paragraph+'&sentence='+$('.div-black .original-sentence.sentence-active').attr('id').replace('original_', '')+'&words='+JSON.stringify(data)+'&body='+(localStorage.getItem('body')||''),
+                    success: function (result) {
+                        localStorage.setItem('body', JSON.stringify(result));
+                    },
+                    async: false
+                });
+            }
 
             let element = this;
             $.ajax({
@@ -72,6 +82,20 @@
                 $('.div-black .original-sentence').removeClass('sentence-active');
                 $(element).addClass('sentence-active');
                 let current_sentence = $('.div-black .original-sentence.sentence-active').attr('id').replace('original_', '');
+
+                let body_data = JSON.parse(localStorage.getItem('body'));
+                if ((category in body_data)) {
+                    if ((paragraph in body_data[category])) {
+                        if ((current_sentence in body_data[category][paragraph])) {
+                            for (let i=0; i<body_data[category][paragraph][current_sentence].length; i++) {
+                                if (body_data[category][paragraph][current_sentence][i] != '________') {
+                                    $('.hyphenated-sentence input').eq(i).val(body_data[category][paragraph][current_sentence][i])
+                                }
+                            }
+                        }
+                    }
+                }
+
                 if (current_sentence == first_sentence) $('#previous-sentence').removeClass('cursor-pointer');
                 else $('#previous-sentence').addClass('cursor-pointer');
                 if (current_sentence == last_sentence) $('#next-sentence').removeClass('cursor-pointer');
@@ -89,15 +113,22 @@
                 if (current_sentence == first_sentence)
                     return false;
                 else {
-                    let data = '';
+                    let data = [];
                     let empty = true;
-                    $('.hyphenated-sentence input').each(function(){
+                    $('.hyphenated-sentence input').each(function(i){
                         if ($(this).val() != '')
                             empty = false;
-                        data = data + ($(this).val()==''?'________':$(this).val()) + " ";
+                        data.push(($(this).val()==''?'________':$(this).val()));
                     });
-                    if (!empty)
-                        localStorage.setItem('body', (localStorage.getItem('body')||'') + '\n' + data);
+                    if (!empty) {
+                        jQuery.ajax({
+                            url: '{{ route('arrange-storage-data') }}?category='+category+'&paragraph='+paragraph+'&sentence='+$('.div-black .original-sentence.sentence-active').attr('id').replace('original_', '')+'&words='+JSON.stringify(data)+'&body='+(localStorage.getItem('body')||''),
+                            success: function (result) {
+                                localStorage.setItem('body', JSON.stringify(result));
+                            },
+                            async: false
+                        });
+                    }
 
                     $.ajax({
                         type: "POST",
@@ -116,36 +147,64 @@
                         $('.div-black .original-sentence').removeClass('sentence-active');
                         $('#original_'+(current_sentence-1)).addClass('sentence-active');
 
+                        let body_data = JSON.parse(localStorage.getItem('body'));
+                        if ((category in body_data)) {
+                            if ((paragraph in body_data[category])) {
+                                if ((current_sentence-1 in body_data[category][paragraph])) {
+                                    for (let i=0; i<body_data[category][paragraph][current_sentence-1].length; i++) {
+                                        if (body_data[category][paragraph][current_sentence-1][i] != '________') {
+                                            $('.hyphenated-sentence input').eq(i).val(body_data[category][paragraph][current_sentence-1][i])
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         if (current_sentence == first_sentence+1) $('#previous-sentence').removeClass('cursor-pointer');
                         if (current_sentence == last_sentence) $('#next-sentence').addClass('cursor-pointer');
                     });
                 }
             }
             if($(this).attr('id') == 'view-all') {
-                let data = '';
+                let data = [];
                 let empty = true;
-                $('.hyphenated-sentence input').each(function(){
+                $('.hyphenated-sentence input').each(function(i){
                     if ($(this).val() != '')
                         empty = false;
-                    data = data + ($(this).val()==''?'________':$(this).val()) + " ";
+                    data.push(($(this).val()==''?'________':$(this).val()));
                 });
-                if (!empty)
-                    localStorage.setItem('body', (localStorage.getItem('body')||'') + '\n' + data);
-                window.location.href = '{{ route('show', $category->id) }}';
+                if (!empty) {
+                    jQuery.ajax({
+                        url: '{{ route('arrange-storage-data') }}?category='+category+'&paragraph='+paragraph+'&sentence='+$('.div-black .original-sentence.sentence-active').attr('id').replace('original_', '')+'&words='+JSON.stringify(data)+'&body='+(localStorage.getItem('body')||''),
+                        success: function (result) {
+                            localStorage.setItem('body', JSON.stringify(result));
+                        },
+                        async: false
+                    });
+                }
+
+                window.location.href = '{{ url('show') }}/'+category+'/'+paragraph;
             }
             if($(this).attr('id') == 'next-sentence') {
                 if (current_sentence == last_sentence || $('.div-black .original-sentence.sentence-active').length>1)
                     return false;
                 else {
-                    let data = '';
+                    let data = [];
                     let empty = true;
-                    $('.hyphenated-sentence input').each(function(){
+                    $('.hyphenated-sentence input').each(function(i){
                         if ($(this).val() != '')
                             empty = false;
-                        data = data + ($(this).val()==''?'________':$(this).val()) + " ";
+                        data.push(($(this).val()==''?'________':$(this).val()));
                     });
-                    if (!empty)
-                        localStorage.setItem('body', (localStorage.getItem('body')||'') + '\n' + data);
+                    if (!empty) {
+                        jQuery.ajax({
+                            url: '{{ route('arrange-storage-data') }}?category='+category+'&paragraph='+paragraph+'&sentence='+$('.div-black .original-sentence.sentence-active').attr('id').replace('original_', '')+'&words='+JSON.stringify(data)+'&body='+(localStorage.getItem('body')||''),
+                            success: function (result) {
+                                localStorage.setItem('body', JSON.stringify(result));
+                            },
+                            async: false
+                        });
+                    }
 
                     $.ajax({
                         type: "POST",
@@ -163,6 +222,19 @@
                         $('.div-black .original-sentence').removeClass('sentence-active');
                         $('#original_'+(current_sentence+1)).addClass('sentence-active');
 
+                        let body_data = JSON.parse(localStorage.getItem('body'));
+                        if ((category in body_data)) {
+                            if ((paragraph in body_data[category])) {
+                                if ((current_sentence+1 in body_data[category][paragraph])) {
+                                    for (let i=0; i<body_data[category][paragraph][current_sentence+1].length; i++) {
+                                        if (body_data[category][paragraph][current_sentence+1][i] != '________') {
+                                            $('.hyphenated-sentence input').eq(i).val(body_data[category][paragraph][current_sentence+1][i])
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         if (current_sentence == first_sentence) $('#previous-sentence').addClass('cursor-pointer');
                         if (current_sentence == last_sentence-1) $('#next-sentence').removeClass('cursor-pointer');
                     });
@@ -170,8 +242,5 @@
             }
         });
 
-        $('.hyphenated-sentence').on('blur', 'input', function () {
-            localStorage.setItem('body', data);
-        })
     </script>
 @endsection

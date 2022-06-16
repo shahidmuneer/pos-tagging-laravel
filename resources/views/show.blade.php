@@ -10,8 +10,25 @@
 @section('scripts')
     <script>
         $(document).ready(function () {
+            let url_array = window.location.href.split("/")
+            let category = url_array[url_array.length-2];
+            let paragraph = url_array[url_array.length-1];
+
             $('#saved-title').append((localStorage.getItem('title')||'')+'<br>'+(localStorage.getItem('name')||'')+'<br><span>|</span>');
-            $('#saved-body').append(localStorage.getItem('body')||'_____');
+
+            let body_data = JSON.parse(localStorage.getItem('body'));
+            let data = '';
+            if ((category in body_data)) {
+                if ((paragraph in body_data[category])) {
+                    for (let index in body_data[category][paragraph]) {
+                        for (let key in body_data[category][paragraph][index]) {
+                            data = data + body_data[category][paragraph][index][key] + " ";
+                        }
+                    }
+                }
+            }
+
+            $('#saved-body').append(data);
         })
     </script>
 @endsection
