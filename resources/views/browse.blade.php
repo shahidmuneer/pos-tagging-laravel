@@ -43,7 +43,7 @@
                                         @php $pieces = explode(" ", trim($value->{'str'. $category->type_name .'_title'})); $first_part = implode(" ", array_splice($pieces, 0, 10)); $other_part = implode(" ", array_splice($pieces, 10)); @endphp
                                         <h3 style="color: #F7898E">{{ $first_part }}</h3>
                                     @else
-                                        <h3 style="color: #F7898E">{{ preg_split('/(?<!Mr.|Ms.|Mrs.|Dr.)(?<=[.?!;:,’\'"])\s+/', strip_tags($value->{'str'. $category->type_name .'_body'}), -1, PREG_SPLIT_NO_EMPTY)[0] }}</h3>
+                                        <h3 style="color: #F7898E">{{ preg_split('/(?<!Mr.|Ms.|Mrs.|Dr.)(?<=[.?!;:,’\'"]|[."]|[?"]|[;"]|[:"]|[,"]|[`"]|[\'"])\s+/', strip_tags($value->{'str'. $category->type_name .'_body'}), -1, PREG_SPLIT_NO_EMPTY)[0] }}</h3>
                                     @endif
                                 </a>
                                 @php $pieces = explode(" ", trim($value->{'str'. $category->type_name .'_body'})); $first_part = implode(" ", array_splice($pieces, 0, 150)); $other_part = implode(" ", array_splice($pieces, 150)); @endphp
