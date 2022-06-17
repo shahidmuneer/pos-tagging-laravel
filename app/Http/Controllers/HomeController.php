@@ -139,7 +139,7 @@ class HomeController extends Controller
                 $response = $client->get('http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id='. $id .'&apikey=48028391abc6e6a2cfa175efc94f6103')->getBody();
                 $result = json_decode($response)->message;
                 if ($result->header->status_code == 200) {
-                    $data['result']['original'] = array_filter(preg_split('/(?<!Mr.|Ms.|Mrs.|Dr.)(?<=[.?!]|[."]|[?"]|[!"])\s+/', strip_tags(explode('...', $result->body->lyrics->lyrics_body)[0]), -1, PREG_SPLIT_NO_EMPTY));
+                    $data['result']['original'] = array_filter(preg_split('/(?<!Mr.|Ms.|Mrs.|Dr.)(?<=[.?!]|[."]|[?"]|[!"])\s+/', (explode('...', $result->body->lyrics->lyrics_body)[0]), -1, PREG_SPLIT_NO_EMPTY));
                     $response = $client->get('http://api.musixmatch.com/ws/1.1/track.get?track_id='. $id .'&apikey=48028391abc6e6a2cfa175efc94f6103')->getBody();
                     $data['title'] = json_decode($response)->message->body->track->track_name;
                     $data['name'] = json_decode($response)->message->body->track->artist_name;
@@ -157,7 +157,7 @@ class HomeController extends Controller
                     $result = DB::table($data['category']->table_name)->where($data['category']->type_name.'_id', $id)->get()->first();
                 }
                 if (isset($result)) {
-                    $data['result']['original'] = array_filter(preg_split('/(?<!Mr.|Ms.|Mrs.|Dr.)(?<=[.?!]|[."]|[?"]|[!"])\s+/', strip_tags($result->{'str'. $data['category']->type_name .'_body'}), -1, PREG_SPLIT_NO_EMPTY));
+                    $data['result']['original'] = array_filter(preg_split('/(?<!Mr.|Ms.|Mrs.|Dr.)(?<=[.?!]|[."]|[?"]|[!"])\s+/', ($result->{'str'. $data['category']->type_name .'_body'}), -1, PREG_SPLIT_NO_EMPTY));
                     $data['title'] = $result->{'str'. $data['category']->type_name .'_title'};
                     if (!isset($data['title']))
                         $data['title'] = preg_split('/(?<!Mr.|Ms.|Mrs.|Dr.)(?<=[.?!;:,’\'"]|[."]|[?"]|[;"]|[:"]|[,"]|[`"]|[\'"])\s+/', strip_tags($result->{'str'. $data['category']->type_name .'_body'}), -1, PREG_SPLIT_NO_EMPTY)[0];
