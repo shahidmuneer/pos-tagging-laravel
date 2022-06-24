@@ -19,7 +19,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 
     <!-- Custom -->
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    @if($page=='assignment.write')
+        <link rel="stylesheet" href="{{ asset('css/assignment/index.css') }}">
+    @else
+        <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    @endif
 
     @yield('styles')
 </head>
@@ -32,6 +36,9 @@
                 <a class="navbar-brand" href="{{ route('home') }}">
 {{--                    <img src="assets/images/BILLIONAERS%20LOGO%2002.png" alt="logo" class="logo-img">--}}
                     Logo
+                </a>
+                <a href="{{ route('assignment.write') }}" @if($page=='assignment.write')style="font-weight: bold;"@endif>
+                    Assignment
                 </a>
                 @isset($nav_search)
                     <ul class="navbar-nav">

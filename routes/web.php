@@ -24,3 +24,6 @@ Route::get('/show/{id}/{paragraph}', [\App\Http\Controllers\HomeController::clas
 
 Route::post('/get-hyphenated-data', [\App\Http\Controllers\HomeController::class, 'get_hyphenated_data'])->name('get-hyphenated-data');
 
+Route::get('/assignment/write', [\App\Http\Controllers\AssignmentController::class, 'write'])->name('assignment.write');
+
+Route::post('/assignment/show', [\App\Http\Controllers\AssignmentController::class, 'show'])->name('assignment.show');
