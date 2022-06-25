@@ -134,6 +134,11 @@ ul{
     padding: 0px 5px 3px 5px;
     border-radius:3px;
 }
+.bg-grey{
+    background: #C6C6C6;
+    padding: 0px 5px 3px 5px;
+    border-radius:3px;
+}
 .bg-gray{
     background: #C6C6C6;
     padding: 0px 5px 3px 5px;
@@ -170,6 +175,10 @@ ul{
     border-top: 2px solid #B8B8B8 !important;
     width: 60px;
 }
+.border-grey{
+    border-top: 2px solid #B8B8B8 !important;
+    width: 60px;
+}
 .border-purple{
     border-top: 2px solid #EFDEE5 !important;
     width: 60px;
@@ -178,11 +187,11 @@ ul{
     border-top: 2px solid #B8B8B8 !important;
     width: 60px;
 }
-.border-darkpur{
+.border-purple{
     border-top: 2px solid #9C7E9C !important;
     width: 60px;
 }
-.border-dark-pur{
+.border-pink{
 border-top: 2px solid #CCAFCC !important;
 width: 60px;
 }

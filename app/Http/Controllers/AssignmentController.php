@@ -26,20 +26,26 @@ class AssignmentController extends Controller
         return view('assignment.write')->with($data);
     }
 
-    public function show(Request $request) {
+    public function show(Request $request, $uid) {
         $data = $this->get_date();
         if (isset($id))
             $data['category'] = DB::table('stc_category_types')->find($id);
         else
             $data['category'] = DB::table('stc_category_types')->get()->first();
 
-        $data['assignment'] = $request->except('_token');
+        $assignments = json_decode($request->cookie('assignments'));
 
-        $request = Request::create('api/pos-tagging', 'GET', ['input'=>$data['assignment']['passage']]);
+        if (!isset($assignments->{$uid}))
+            abort(404);
+
+        $data['assignment']['title'] = $assignments->{$uid}->title;
+        $data['assignment']['background'] = $assignments->{$uid}->background;
+        $data['assignment']['wrap_up'] = $assignments->{$uid}->wrap_up;
+
+        $request = Request::create('api/pos-tagging', 'GET', ['input'=>$assignments->{$uid}->passage]);
         \Illuminate\Support\Facades\Request::replace($request->input());
         $instance = json_decode(Route::dispatch($request)->getContent());
         $tag_words = explode(' ', $instance->output);
-
         $data['assignment']['passage'] = $tag_words;
 
         $data['detail'] = array_combine(array_column($data['pos_tags']->toArray(), 'tag'), array_column($data['pos_tags']->toArray(), 'detail'));

@@ -4,8 +4,9 @@
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
+                <div id="assignment_link"></div>
                 <h3 class="text-center">Create a Writing Talk for your Students</h3>
-                <form method="post" action="{{ route('assignment.show') }}" class="margin-top-40" id="assignment_write_form">
+                <form method="post" action="" class="margin-top-40" id="assignment_write_form">
                     @csrf
                     <div class="form-group">
                         <label for="title">Title:</label>
@@ -29,10 +30,56 @@
             </div>
             <div class="col-lg-2"></div>
         </div>
-
     </div>
 @endsection
 @section('scripts')
     <script>
+        var createNestedObject = function( base, names, value ) {
+            var lastName = arguments.length === 3 ? names.pop() : false;
+            for( var i = 0; i < names.length; i++ ) {
+                base = base[ names[i] ] = base[ names[i] ] || {};
+            }
+            if( lastName ) base = base[ lastName ] = value;
+            return base;
+        };
+        function setCookie(name,value,days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days*24*60*60*1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+        }
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+        function eraseCookie(name) {
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+
+        // eraseCookie('assignments');
+        console.log(getCookie('assignments'));
+        $('#assignment_write_form').on('submit', function (e) {
+            e.preventDefault();
+            let assignments = getCookie('assignments')?JSON.parse(getCookie('assignments')):{};
+            let assignment_no = Math.random().toString(16).slice(10)+Object.keys(assignments).length;
+
+            createNestedObject(assignments, [assignment_no,'title'], $('input[name="title"]').val());
+            createNestedObject(assignments, [assignment_no,'background'], $('textarea[name="background"]').val());
+            createNestedObject(assignments, [assignment_no,'passage'], $('textarea[name="passage"]').val());
+            createNestedObject(assignments, [assignment_no,'wrap_up'], $('textarea[name="wrap_up"]').val());
+
+            setCookie('assignments', JSON.stringify(assignments), 7);
+
+            $('#assignment_link').empty().append('<div class="alert alert-success" id="success-alert"> <button type="button" class="close" data-dismiss="alert">x</button><strong>Success! </strong> {{ url('assignment/show/') }}/'+assignment_no+'</div>');
+        });
     </script>
 @endsection

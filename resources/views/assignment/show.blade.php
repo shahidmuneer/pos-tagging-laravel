@@ -24,7 +24,7 @@
                 <br>
                 <label>Re-write the passage in the manner described by your instructor</label>
                 <div class="table-responsive text-nowrap">
-                    @php $tag_word_chunks = array_chunk($assignment['passage'], '3') @endphp
+                    @php $tag_word_chunks = array_chunk($assignment['passage'], 4) @endphp
                     @foreach($tag_word_chunks as $tag_words)
                         <table class="table table-borderless margin-top-40">
                             <tbody>
