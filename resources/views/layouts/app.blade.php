@@ -19,7 +19,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 
     <!-- Custom -->
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    @if($page=='assignment.write' || $page=='assignment.show')
+        <link rel="stylesheet" href="{{ asset('css/assignment/index.css') }}">
+    @else
+        <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    @endif
 
     @yield('styles')
 </head>
@@ -31,7 +35,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('home') }}">
                    <img src="/logo.png" alt="logo" class="logo-img">
-                    
+
                 </a>
                 @isset($nav_search)
                     <ul class="navbar-nav">
@@ -43,9 +47,9 @@
                                         | {{ $category->display_name }}
                                     </button>
                                     <div class="dropdown-menu">
-                                        
+
                                         @foreach($categories as $key=>$value)
-                                            <a class="dropdown-item" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->display_name}} 
+                                            <a class="dropdown-item" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->display_name}}
                                             </a>
                                         @endforeach
                                     </div>

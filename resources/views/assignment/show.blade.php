@@ -1,12 +1,12 @@
-@extends('layouts.app', ['black_footer'=>true, 'page'=>'assignment.write'])
+@extends('layouts.app', ['black_footer'=>true, 'page'=>'assignment.show'])
 @section('content')
     <div class="container margin-top-40">
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
-                <h3 class="text-center">Title</h3>
+                <h3 class="text-center">{{ $assignment['title'] }}</h3>
                 <label>Background</label>
-                <p style="font-weight: 500;">{{ $assignment['title'] }}</p>
+                <p style="font-weight: 500;">{{ $assignment['background'] }}</p>
                 <label class="margin-top-40">The passage</label>
                 <div>
                     @foreach($assignment['passage'] as $key=>$value)
