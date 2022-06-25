@@ -19,11 +19,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 
     <!-- Custom -->
-    @if($page=='assignment.write')
-        <link rel="stylesheet" href="{{ asset('css/assignment/index.css') }}">
-    @else
-        <link rel="stylesheet" href="{{ asset('css/index.css') }}">
-    @endif
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 
     @yield('styles')
 </head>
@@ -34,11 +30,8 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('home') }}">
-{{--                    <img src="assets/images/BILLIONAERS%20LOGO%2002.png" alt="logo" class="logo-img">--}}
-                    Logo
-                </a>
-                <a href="{{ route('assignment.write') }}" @if($page=='assignment.write')style="font-weight: bold;"@endif>
-                    Assignment
+                   <img src="/logo.png" alt="logo" class="logo-img">
+                    
                 </a>
                 @isset($nav_search)
                     <ul class="navbar-nav">
@@ -50,8 +43,10 @@
                                         | {{ $category->display_name }}
                                     </button>
                                     <div class="dropdown-menu">
+                                        
                                         @foreach($categories as $key=>$value)
-                                            <a class="dropdown-item" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->display_name}}</a>
+                                            <a class="dropdown-item" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->display_name}} 
+                                            </a>
                                         @endforeach
                                     </div>
                                 </div>
@@ -73,8 +68,12 @@
                     <span class="navbar-text">
                         <ul class="navbar-nav" id="navbar-categories">
                             @foreach($categories as $key=>$value)
-                                <li class="nav-item"><a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif href="{{ route($page=='write'?'browse':$page, $value->id) }}" class="nav-link log-in">{{ $value->display_name }}</a></li>
+                                <li class="nav-item"><a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif href="{{ route($page=='write'?'browse':$page, $value->id) }}" class="nav-link log-in">{{ $value->display_name }}
+                                </a></li>
                             @endforeach
+                            <li class="nav-item">
+                            <a class="nav-link log-in" href='/assignment/write'>Assignment</a>
+                            </li>
                         </ul>
                     </span>
                 </div>
