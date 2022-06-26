@@ -71,12 +71,23 @@
                     <ul class="navbar-nav"></ul>
                     <span class="navbar-text">
                         <ul class="navbar-nav" id="navbar-categories">
-                            @foreach($categories as $key=>$value)
-                                <li class="nav-item"><a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif href="{{ route($page=='write'?'browse':$page, $value->id) }}" class="nav-link log-in">{{ $value->display_name }}
-                                </a></li>
-                            @endforeach
-                            <li class="nav-item">
-                            <a class="nav-link log-in" href='/assignment/write'>Assignment</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Writers
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @foreach($categories as $key=>$value)
+                                        <a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif class="dropdown-item nav-link log-in" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->display_name }}</a>
+                                    @endforeach
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Educators
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="nav-link log-in" href='/assignment/write'>Create Worksheet</a>
+                                </div>
                             </li>
                         </ul>
                     </span>
