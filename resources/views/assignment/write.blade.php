@@ -79,7 +79,9 @@
 
             setCookie('assignments', JSON.stringify(assignments), 7);
 
-            $('#assignment_link').empty().append('<div class="alert alert-success" id="success-alert"> <button type="button" class="close" data-dismiss="alert">x</button><strong>Success! </strong> {{ url('assignment/show/') }}/'+assignment_no+'</div>');
+            window.location.href = '{{ url('assignment/show/') }}/'+assignment_no;
+
+            {{--$('#assignment_link').empty().append('<div class="alert alert-success" id="success-alert"> <button type="button" class="close" data-dismiss="alert">x</button><strong>Success! </strong> {{ url('assignment/show/') }}/'+assignment_no+'</div>');--}}
         });
     </script>
 @endsection

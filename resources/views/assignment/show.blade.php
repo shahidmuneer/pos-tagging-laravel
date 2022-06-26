@@ -4,6 +4,9 @@
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
+                <div class="alert alert-success" id="success-alert">
+                    {{ Request::url() }}
+                </div>
                 <h3 class="text-center">{{ $assignment['title'] }}</h3>
                 <label>Background</label>
                 <p style="font-weight: 500;">{{ $assignment['background'] }}</p>
