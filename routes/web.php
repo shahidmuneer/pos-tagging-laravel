@@ -14,7 +14,7 @@
 Route::get('/', function () {
     return redirect()->route('home');
 })->name('index');
-Route::get('/home/{id?}', [\App\Http\Controllers\HomeController::class, 'home'])->where('id', '[0-9]')->name('home');
+Route::get('/home/{id?}', [\App\Http\Controllers\HomeController::class, 'home'])->where('id', '[0-9]')->name('home')->middleware('auth');
 
 Route::get('/browse/{id}', [\App\Http\Controllers\HomeController::class, 'browse'])->where('id', '[0-9]+')->name('browse');
 
@@ -27,3 +27,7 @@ Route::post('/get-hyphenated-data', [\App\Http\Controllers\HomeController::class
 Route::get('/assignment/write', [\App\Http\Controllers\AssignmentController::class, 'write'])->name('assignment.write');
 
 Route::get('/assignment/show/{id}', [\App\Http\Controllers\AssignmentController::class, 'show'])->name('assignment.show');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

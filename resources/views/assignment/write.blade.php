@@ -65,8 +65,6 @@
             document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         }
 
-        // eraseCookie('assignments');
-        console.log(getCookie('assignments'));
         $('#assignment_write_form').on('submit', function (e) {
             e.preventDefault();
             let assignments = getCookie('assignments')?JSON.parse(getCookie('assignments')):{};
@@ -83,5 +81,6 @@
 
             {{--$('#assignment_link').empty().append('<div class="alert alert-success" id="success-alert"> <button type="button" class="close" data-dismiss="alert">x</button><strong>Success! </strong> {{ url('assignment/show/') }}/'+assignment_no+'</div>');--}}
         });
+        console.log(getCookie('assignments'));
     </script>
 @endsection
