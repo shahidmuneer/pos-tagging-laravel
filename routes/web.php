@@ -14,7 +14,7 @@
 Route::get('/', function () {
     return redirect()->route('home');
 })->name('index');
-Route::get('/home/{id?}', [\App\Http\Controllers\HomeController::class, 'home'])->where('id', '[0-9]')->name('home')->middleware('auth');
+Route::get('/home/{id?}', [\App\Http\Controllers\HomeController::class, 'home'])->where('id', '[0-9]')->name('home');
 
 Route::get('/browse/{id}', [\App\Http\Controllers\HomeController::class, 'browse'])->where('id', '[0-9]+')->name('browse');
 
