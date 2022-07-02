@@ -49,12 +49,11 @@
                                         | {{ $category->display_name }}
                                     </button>
                                     <div class="dropdown-menu">
-                                    @isset($categories)
+
                                         @foreach($categories as $key=>$value)
                                             <a class="dropdown-item" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->display_name}}
                                             </a>
                                         @endforeach
-                                    @endisset
                                     </div>
                                 </div>
 
@@ -79,11 +78,11 @@
                                   Writers
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    @isset($categories)
+                                    @if(!empty($categories))
                                         @foreach($categories as $key=>$value)
-                                            <a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif class="dropdown-item nav-link log-in" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->display_name }}</a>
+                                            <a @if(!empty($category) && $category->id==$value->id)style="color: blue; font-weight: normal;"@endif class="dropdown-item nav-link log-in" href="{{ route(!empty($page) && $page=='write'?'browse':$page??'browse', $value->id) }}">{{ $value->display_name }}</a>
                                         @endforeach
-                                    @endisset
+                                    @endif
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
