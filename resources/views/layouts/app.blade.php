@@ -73,18 +73,35 @@
                     <ul class="navbar-nav"></ul>
                     <span class="navbar-text">
                         <ul class="navbar-nav" id="navbar-categories">
+                            @if(isset($page))
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Writers
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        @isset($categories)
+                                            @foreach($categories as $key=>$value)
+                                                <a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif class="dropdown-item nav-link log-in" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->display_name }}</a>
+                                            @endforeach
+                                        @endisset
+                                    </div>
+                                </li>
+                            
+                            @else 
+                            <?php $cats=DB::table('stc_category_types')->get(); ?>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Writers
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    @if(!empty($categories))
-                                        @foreach($categories as $key=>$value)
-                                            <a @if(!empty($category) && $category->id==$value->id)style="color: blue; font-weight: normal;"@endif class="dropdown-item nav-link log-in" href="{{ route(!empty($page) && $page=='write'?'browse':$page??'browse', $value->id) }}">{{ $value->display_name }}</a>
-                                        @endforeach
-                                    @endif
-                                </div>
-                            </li>
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Writers
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        @isset($cats)
+                                            @foreach($cats as $key=>$value)
+                                                <a  class="dropdown-item nav-link log-in" href="{{ route('browse', $value->id) }}">{{ $value->display_name }}</a>
+                                            @endforeach
+                                        @endisset
+                                    </div>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                   Educators
