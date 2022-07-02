@@ -19,11 +19,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 
     <!-- Custom -->
-    @if($page=='assignment.write' || $page=='assignment.show')
-        <link rel="stylesheet" href="{{ asset('css/assignment/index.css') }}">
-    @else
-        <link rel="stylesheet" href="{{ asset('css/index.css') }}">
-    @endif
+    @isset($page)
+        @if($page=='assignment.write' || $page=='assignment.show')
+            <link rel="stylesheet" href="{{ asset('css/assignment/index.css') }}">
+        @else
+            <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+        @endif
+    @endisset
 
     @yield('styles')
 </head>
@@ -76,10 +78,11 @@
                                   Writers
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    @foreach($categories as $key=>$value)
-                                        <a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif class="dropdown-item nav-link log-in"
-                                             href="/home/{{$value->id}}">{{ $value->display_name }}</a>
-                                    @endforeach
+                                    @isset($categories)
+                                        @foreach($categories as $key=>$value)
+                                            <a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif class="dropdown-item nav-link log-in" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->display_name }}</a>
+                                        @endforeach
+                                    @endisset
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -90,6 +93,47 @@
                                     <a class="nav-link log-in" href='/assignment/write'>Create Worksheet</a>
                                 </div>
                             </li>
+                            @guest()
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Blog
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="nav-link log-in" href="{{ url('') }}/en/blog">Blogs</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Account
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="nav-link log-in" href="{{ route('register') }}">Register</a>
+                                        <a class="nav-link log-in" href="{{ route('login') }}">Login</a>
+                                    </div>
+                                </li>
+                            @endguest
+                            @auth
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Blog
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="nav-link log-in" href="{{ url('') }}/blog_admin">Admin</a>
+                                        <a class="nav-link log-in" href="{{ url('') }}/en/blog">Blogs</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Account
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none"> @csrf </form>
+                                    </div>
+                                </li>
+                            @endauth
                         </ul>
                     </span>
                 </div>
@@ -114,7 +158,8 @@
                 </div>
             </div>
         </div>
-    @else
+    @endisset
+    @isset($page)
         <footer class="mr-3 ml-3">
             <div class="position">Lybr, inc , copyright 2022<br><a href="#">Help</a> | <a href="#">Privacy</a> | <a href="#">Terms</a></div>
         </footer>
