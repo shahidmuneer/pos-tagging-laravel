@@ -13,7 +13,7 @@
                         <input type="text" class="form-control" name="title" id="title" required>
                     </div>
                     <div class="form-group">
-                        <label for="background">Background/Imstructions(Give your students instructions or background that will help them):</label>
+                        <label for="background">Background/Instructions(Give your students instructions or background that will help them):</label>
                         <textarea class="form-control height-60" rows="5" name="background" id="background" required></textarea>
                     </div>
                     <div class="form-group">

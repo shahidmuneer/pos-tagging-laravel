@@ -4,9 +4,7 @@
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
-                <div class="alert alert-success" id="success-alert">
-                    {{ Request::url() }}
-                </div>
+               
                 <h3 class="text-center">{{ $assignment['title'] }}</h3>
                 <label>Background</label>
                 <p style="font-weight: 500;">{{ $assignment['background'] }}</p>
@@ -48,9 +46,17 @@
                 <label class="margin-top-40">Wrap-up</label>
                 <p style="font-weight: 500;">{{ $assignment['wrap_up'] }}</p>
             </div>
+
         </div>
 
-        <div class="col-lg-2"></div>
+        <div class="row " style="display:block; margin-top:20px;">
+        <center>
+        <div class="alert alert-success" id="success-alert">
+                    {{ Request::url() }}
+                </div>
+                </center>
+        </div>
+
     </div>
 @endsection
 @section('scripts')

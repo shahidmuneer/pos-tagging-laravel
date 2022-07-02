@@ -77,7 +77,8 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     @foreach($categories as $key=>$value)
-                                        <a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif class="dropdown-item nav-link log-in" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->display_name }}</a>
+                                        <a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif class="dropdown-item nav-link log-in"
+                                             href="/home/{{$value->id}}">{{ $value->display_name }}</a>
                                     @endforeach
                                 </div>
                             </li>
