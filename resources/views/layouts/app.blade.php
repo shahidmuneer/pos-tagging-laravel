@@ -49,11 +49,12 @@
                                         | {{ $category->display_name }}
                                     </button>
                                     <div class="dropdown-menu">
-
+                                    @isset($categories)
                                         @foreach($categories as $key=>$value)
                                             <a class="dropdown-item" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->display_name}}
                                             </a>
                                         @endforeach
+                                    @endisset
                                     </div>
                                 </div>
 
