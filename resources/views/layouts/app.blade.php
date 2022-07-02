@@ -73,18 +73,20 @@
                     <ul class="navbar-nav"></ul>
                     <span class="navbar-text">
                         <ul class="navbar-nav" id="navbar-categories">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Writers
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    @isset($categories)
-                                        @foreach($categories as $key=>$value)
-                                            <a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif class="dropdown-item nav-link log-in" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->display_name }}</a>
-                                        @endforeach
-                                    @endisset
-                                </div>
-                            </li>
+                            @isset($page)
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Writers
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        @isset($categories)
+                                            @foreach($categories as $key=>$value)
+                                                <a @if($category->id==$value->id)style="color: blue; font-weight: normal;"@endif class="dropdown-item nav-link log-in" href="{{ route($page=='write'?'browse':$page, $value->id) }}">{{ $value->display_name }}</a>
+                                            @endforeach
+                                        @endisset
+                                    </div>
+                                </li>
+                            @endisset
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                   Educators
